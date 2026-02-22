@@ -2,344 +2,398 @@
 <html lang="el">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ΦΡΟΥΡΑ - Υπολογιστής Κρατήσεων 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>ΦΡΟΥΡΑ · Κρατήσεις 2026</title>
     <style>
         :root {
-            --primary-color: #2c5530;
-            --secondary-color: #4a7c59;
-            --background-color: #f5f5f5;
-            --text-color: #333;
-            --card-bg: #ffffff;
-            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --primary: #1b4d2b;
+            --primary-light: #2e6b3e;
+            --secondary: #5a7c5a;
+            --bg: #f4f7f2;
+            --card: #ffffff;
+            --text: #1e2a1e;
+            --shadow: 0 4px 12px rgba(0,20,0,0.08);
+            --border-soft: #dde8dd;
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         }
+
         body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            padding: 1rem;
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 0.75rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
         .container {
-            max-width: 1600px;
+            max-width: 600px;  /* αντί για 1600px — άριστο για κινητά */
             margin: 0 auto;
+            width: 100%;
         }
+
         h2 {
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            border-bottom: 3px solid var(--primary-color);
-            padding-bottom: 0.5rem;
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin: 0.25rem 0 1rem 0;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.4rem;
+            letter-spacing: -0.01em;
         }
+
         h3 {
-            color: var(--primary-color);
-            margin: 1.5rem 0 1rem 0;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin: 1.2rem 0 0.8rem 0;
         }
+
         h4 {
-            color: var(--secondary-color);
-            margin: 1rem 0 0.5rem 0;
             font-size: 1.1rem;
+            color: var(--primary-light);
+            margin: 0.8rem 0 0.3rem 0;
         }
-        
-        /* Στυλ καρτελών */
+
+        /* καρτέλες mobile – πιο χοντρές και φιλικές */
         .tabs-container {
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
+            gap: 0.4rem;
+            margin-bottom: 1.2rem;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: var(--bg);
+            padding: 0.5rem 0 0.2rem 0;
         }
+
         .tab-button {
             flex: 1;
-            padding: 1rem;
-            font-size: 1.1rem;
-            font-weight: bold;
+            padding: 0.9rem 0.2rem;
+            font-size: 1rem;
+            font-weight: 600;
             border: none;
-            border-radius: 8px 8px 0 0;
+            border-radius: 40px;  /* πιο στρογγυλό, εύκολο για tap */
+            background-color: #dde8dd;
+            color: #1e3a2a;
             cursor: pointer;
-            transition: all 0.3s;
-            background-color: #e0e0e0;
-            color: #555;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            letter-spacing: 0.3px;
+            touch-action: manipulation;
         }
+
         .tab-button.active {
-            background-color: var(--primary-color);
+            background: var(--primary);
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 -4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(27,77,43,0.3);
         }
-        .tab-button:hover:not(.active) {
-            background-color: #d0d0d0;
-        }
-        
+
         .tab-content {
             display: none;
-            background-color: var(--card-bg);
-            border-radius: 0 8px 8px 8px;
-            padding: 2rem;
+            background: var(--card);
+            border-radius: 28px 20px 20px 20px;
+            padding: 1.3rem 1rem;
             box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
         }
+
         .tab-content.active {
             display: block;
         }
-        
-        /* Υπόλοιπα στυλ όπως πριν */
+
+        /* όλες οι φόρμες, πεδία */
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
         }
+
         label {
             display: block;
-            margin-bottom: 0.3rem;
             font-weight: 600;
-            color: var(--primary-color);
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+            padding-left: 0.2rem;
         }
+
         input, select {
             width: 100%;
-            padding: 0.7rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 0.9rem 1rem;
+            border: 1.5px solid var(--border-soft);
+            border-radius: 24px;
             font-size: 1rem;
+            background: white;
+            transition: 0.15s;
+            -webkit-appearance: none;
+            appearance: none;
         }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(27,77,43,0.2);
+        }
+
         input[readonly] {
-            background-color: #f0f0f0;
-            font-weight: bold;
+            background-color: #ecf3ec;
+            font-weight: 600;
+            color: #0f3a1a;
         }
+
         .section-title {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
             padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.25rem;
         }
-        
+
+        /* πλέγμα για κινητά: όλα 1 column, αλλά μικρά διπλά αν χωράει */
         .main-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .grid-2 {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
         }
-        @media (min-width: 1200px) {
-            .main-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 2rem;
-            }
+
+        /* κάρτες αποτελεσμάτων πιο αέρινες */
+        .result-card {
+            background: var(--card);
+            padding: 1.2rem 1rem;
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-soft);
         }
-        
-        .left-column, .right-column {
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.7rem;
+            margin: 0.8rem 0;
+        }
+
+        .result-item {
+            background: #eef4ea;
+            border-radius: 20px;
+            padding: 0.7rem 0.3rem;
+            text-align: center;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.02);
+        }
+
+        .result-item label {
+            font-size: 0.75rem;
+            margin-bottom: 0.2rem;
+            color: #2b4b2b;
+        }
+
+        .result-item .value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .value.tax { color: #b13e3e; }
+        .value.net { color: #113e5e; }
+
+        /* πίνακες με οριζόντια κύλιση μόνο αν χρειαστεί */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 20px;
+            background: white;
+            margin: 0.8rem 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 300px;  /* μικροί πίνακες δεν σπάνε */
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 0.7rem 0.3rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 0.6rem 0.3rem;
+            border: 1px solid #cbdccb;
+            text-align: center;
+        }
+
+        .badge {
+            background: #f2c94c;
+            color: #1e3a2a;
+            padding: 0.2rem 0.6rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-left: 0.3rem;
+            white-space: nowrap;
+        }
+
+        .info-box {
+            background: #e2efe2;
+            border-left: 5px solid var(--primary);
+            padding: 1rem;
+            border-radius: 20px;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        /* συντελεστές - ροή σε 2 γραμμές */
+        .coeff-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            background: #edf3ed;
+            padding: 1rem 0.8rem;
+            border-radius: 30px;
+            margin: 1rem 0;
+            align-items: center;
+        }
+
+        .coeff-box {
+            flex: 1 1 100px;
+            min-width: 80px;
+        }
+
+        .coeff-box label {
+            font-size: 0.75rem;
+            margin-bottom: 0.1rem;
+        }
+
+        .coeff-input {
+            background: white;
+            font-weight: 700;
+            text-align: center;
+            padding: 0.6rem 0.2rem;
+        }
+
+        /* νυχτερινά / πενθήμερα — stacking όμορφο */
+        .night-penhmero-wrapper {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
         }
-        
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        
-        .table-container {
-            overflow-x: auto;
-            border-radius: 5px;
-            box-shadow: var(--shadow);
-            background-color: var(--card-bg);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0.75rem;
-            text-align: center;
-            font-size: 0.9rem;
-        }
-        td {
-            padding: 0.75rem;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-        tr:nth-child(even) {
-            background-color: rgba(44, 85, 48, 0.05);
-        }
-        
-        .result-card {
-            background-color: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            border: 2px solid var(--primary-color);
-        }
-        
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-        @media (min-width: 768px) {
-            .results-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 1.5rem;
+
+        @media (min-width: 420px) {
+            .night-penhmero-wrapper {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
             }
         }
-        .result-item {
-            text-align: center;
+
+        .night-box, .penhmero-box {
+            background: #f0f7ee;
+            border-radius: 24px;
             padding: 1rem;
-            background-color: rgba(44, 85, 48, 0.05);
-            border-radius: 5px;
         }
-        .result-item label {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 0.3rem;
+
+        .night-box input, .penhmero-box input {
+            background: white;
         }
-        .result-item .value {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-        .value.tax {
-            color: #d32f2f;
-        }
-        .value.net {
-            color: #1a237e;
-        }
-        
-        .badge {
-            background-color: #ffc107;
-            color: #333;
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-left: 0.5rem;
-        }
-        
-        .info-box {
-            background-color: #e8f5e8;
-            border-left: 4px solid var(--primary-color);
-            padding: 1rem;
-            border-radius: 5px;
-        }
-        
-        .coeff-row {
+
+        .extra-total {
+            background: #fff1cf;
+            border-radius: 40px;
+            padding: 1rem 1.2rem;
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
             flex-wrap: wrap;
-            gap: 1rem;
-            align-items: flex-end;
-            background-color: rgba(44, 85, 48, 0.05);
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1rem 0;
+            margin-top: 1rem;
         }
-        .coeff-box {
-            flex: 1;
-            min-width: 100px;
-        }
-        .coeff-box label {
-            font-size: 0.85rem;
-            margin-bottom: 0.2rem;
-        }
-        .coeff-input {
-            background-color: #e8f5e9;
-            font-weight: bold;
-            text-align: center;
-        }
-        
-        .informational-table {
-            background-color: #f8f9fa;
-        }
+
+        /* μικροδιορθώσεις */
         .informational-table td {
             font-weight: 500;
         }
-        
-        /* Στυλ για την καρτέλα οδηγιών */
+
+        ul, ol {
+            padding-left: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.3rem;
+        }
+
         .instructions-content {
-            line-height: 1.8;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            line-height: 1.6;
         }
-        .instructions-content h3 {
-            color: var(--primary-color);
-            margin: 2rem 0 1rem 0;
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 0.5rem;
+
+        .note, .warning {
+            border-radius: 24px;
         }
-        .instructions-content h4 {
-            color: var(--secondary-color);
-            margin: 1.5rem 0 0.8rem 0;
+
+        /* κουμπιά και διάδραση */
+        button, select, input {
+            touch-action: manipulation;
         }
-        .instructions-content ul, .instructions-content ol {
-            margin-left: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        .instructions-content li {
-            margin-bottom: 0.5rem;
-        }
-        .instructions-content .note {
-            background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 5px;
-        }
-        .instructions-content .warning {
-            background-color: #ffebee;
-            border-left: 4px solid #d32f2f;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 5px;
+
+        /* κεντρική σελίδα πιο ανάλαφρη */
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #5f735f;
+            margin: 1.5rem 0 0.2rem;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>📊 ΦΡΟΥΡΑ - Σύστημα Υπολογισμών 2026</h2>
+<div class="container">
+    <h2>📱 ΦΡΟΥΡΑ 2026</h2>
 
-        <!-- Καρτέλες -->
-        <div class="tabs-container">
-            <button class="tab-button active" onclick="openTab('calculator')" id="tabCalculator">🧮 ΥΠΟΛΟΓΙΣΤΗΣ ΚΡΑΤΗΣΕΩΝ</button>
-            <button class="tab-button" onclick="openTab('instructions')" id="tabInstructions">📖 ΟΔΗΓΙΕΣ ΧΡΗΣΗΣ</button>
-        </div>
+    <!-- καρτέλες -->
+    <div class="tabs-container">
+        <button class="tab-button active" onclick="openTab('calculator')" id="tabCalculator">🧮 Υπολογιστής</button>
+        <button class="tab-button" onclick="openTab('instructions')" id="tabInstructions">📖 Οδηγίες</button>
+    </div>
 
-        <!-- ΚΑΡΤΕΛΑ 1: ΥΠΟΛΟΓΙΣΤΗΣ (όλος ο προηγούμενος κώδικας) -->
-        <div id="calculator" class="tab-content active">
-            <!-- Πίνακας Βασικών Μισθών Κατηγορίας Γ -->
-            <div style="margin-bottom: 2rem;">
-                <h3 class="section-title">📋 Κλίμακα Βασικών Μισθών (Κατηγορία Γ)</h3>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Κλιμάκιο</th>
-                                <th>Έτη Υπηρεσίας</th>
-                                <th>Βασικός Μισθός (€)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="salaryScaleTable"></tbody>
-                    </table>
-                </div>
+    <!-- ΚΑΡΤΕΛΑ ΥΠΟΛΟΓΙΣΤΗ (όλο το περιεχόμενο συμπυκνωμένο) -->
+    <div id="calculator" class="tab-content active">
+
+        <!-- κλίμακα βασικών μισθών + επιλογή κλιμακίου -->
+        <div class="result-card" style="padding-bottom: 0.8rem;">
+            <h3 class="section-title" style="margin-top: 0;">📋 Βασικοί μισθοί (Κατ. Γ)</h3>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Κλιμ.</th><th>Έτη</th><th>Μισθός (€)</th></tr></thead>
+                    <tbody id="salaryScaleTable"></tbody>
+                </table>
             </div>
 
-            <!-- Επιλογή Κλιμακίου και Συντελεστών -->
             <div class="coeff-row">
-                <div class="coeff-box" style="flex: 2;">
-                    <label for="scaleSelect">📌 Επιλογή Κλιμακίου</label>
-                    <select id="scaleSelect">
-                        <option value="">-- Επιλέξτε Κλιμάκιο --</option>
-                    </select>
+                <div class="coeff-box" style="flex: 2 1 180px;">
+                    <label for="scaleSelect">📌 Επιλογή κλιμακίου</label>
+                    <select id="scaleSelect"></select>
                 </div>
-                <div class="coeff-box">
-                    <label>ΦΡ</label>
-                    <input type="text" id="coefFR" value="1,03" class="coeff-input" readonly>
-                </div>
-                <div class="coeff-box">
-                    <label>ΥΠΡΧ</label>
-                    <input type="text" id="coefYPRX" value="1,04" class="coeff-input" readonly>
-                </div>
-                <div class="coeff-box">
-                    <label>ΑΡΧΦ</label>
-                    <input type="text" id="coefARXF" value="1,07" class="coeff-input" readonly>
-                </div>
-                <div class="coeff-box" style="flex: 1.5;">
-                    <label for="coefSelect">Εφαρμογή Συντελεστή</label>
+                <div class="coeff-box"><label>ΦΡ</label><input type="text" id="coefFR" value="1,03" class="coeff-input" readonly></div>
+                <div class="coeff-box"><label>ΥΠΡΧ</label><input type="text" id="coefYPRX" value="1,04" class="coeff-input" readonly></div>
+                <div class="coeff-box"><label>ΑΡΧΦ</label><input type="text" id="coefARXF" value="1,07" class="coeff-input" readonly></div>
+                <div class="coeff-box" style="flex:1.8">
+                    <label for="coefSelect">Συντελεστής</label>
                     <select id="coefSelect">
                         <option value="1.00">-- Κανένας --</option>
                         <option value="1.03">ΦΡ (1,03)</option>
@@ -348,707 +402,297 @@
                     </select>
                 </div>
             </div>
+        </div>
 
-            <!-- MAIN GRID: Αριστερή και Δεξιά στήλη -->
-            <div class="main-grid">
-                <!-- ΑΡΙΣΤΕΡΗ ΣΤΗΛΗ - ΥΠΟΛΟΓΙΣΤΗΣ -->
-                <div class="left-column">
-                    <!-- Φόρμα Εισόδου -->
-                    <div class="result-card">
-                        <h3 class="section-title">💰 Στοιχεία Μισθού</h3>
-                        
-                        <div class="form-group">
-                            <label for="basicSalary">Βασικός Μισθός Αποδοχών (€):</label>
-                            <input type="number" id="basicSalary" step="0.01" readonly>
-                        </div>
-                        
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label for="dangerousBonus">Επικίνδυνο (€):</label>
-                                <input type="number" id="dangerousBonus" value="150" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label for="idsynBonus">Ιδ. Συνθηκών (€):</label>
-                                <input type="number" id="idsynBonus" value="100" step="0.01">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="childrenBonus">Επίδομα Τέκνων (€):</label>
-                            <input type="number" id="childrenBonus" value="70" step="0.01">
-                        </div>
-                    </div>
-
-                    <!-- Επιλογές Υπολογισμού -->
-                    <div class="result-card">
-                        <h3 class="section-title">⚙️ Παράμετροι Υπολογισμού</h3>
-                        
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label for="numChildrenSelect">👶 Αριθμός Τέκνων (για φόρο)</label>
-                                <select id="numChildrenSelect">
-                                    <option value="0">0 Τέκνα</option>
-                                    <option value="1" selected>1 Τέκνο</option>
-                                    <option value="2">2 Τέκνα</option>
-                                    <option value="3">3 Τέκνα</option>
-                                    <option value="4">4 Τέκνα</option>
-                                    <option value="5">5+ Τέκνα</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="ageGroup">📅 Ηλικιακή Κατηγορία</label>
-                                <select id="ageGroup">
-                                    <option value="over30">Άνω των 30 ετών</option>
-                                    <option value="under30">25 έως 30 ετών</option>
-                                    <option value="under25">Έως 25 ετών</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="input-pouf">💳 ΠΟΥΦ (€) <span class="badge">αφαιρείται από το καθαρό</span></label>
-                            <input type="number" id="input-pouf" value="4" step="0.01">
-                        </div>
-                    </div>
-
-                    <!-- Αποτελέσματα Υπολογισμού -->
-                    <div class="result-card">
-                        <h3 class="section-title">📈 Αποτελέσματα</h3>
-                        
-                        <div class="results-grid">
-                            <div class="result-item">
-                                <label>Μηνιαία Μεικτά</label>
-                                <div class="value" id="display-monthly-gross">0,00 €</div>
-                            </div>
-                            <div class="result-item">
-                                <label>Μηνιαίες Κρατήσεις</label>
-                                <div class="value" id="display-monthly-deductions">0,00 €</div>
-                            </div>
-                            <div class="result-item">
-                                <label>Προ Φόρου (Μήνας)</label>
-                                <div class="value" id="display-pre-tax">0,00 €</div>
-                            </div>
-                            <div class="result-item">
-                                <label>Ετήσιο Φορολογητέο</label>
-                                <div class="value" id="display-annual-taxable">0,00 €</div>
-                            </div>
-                            <div class="result-item">
-                                <label>Φόρος 2026</label>
-                                <div class="value tax" id="display-tax">0,00 €</div>
-                            </div>
-                            <div class="result-item">
-                                <label>Μηνιαίο Καθαρό</label>
-                                <div class="value net" id="display-monthly-net">0,00 €</div>
-                            </div>
-                            <div class="result-item">
-                                <label>15νθήμερο</label>
-                                <div class="value" id="display-fortnight">0,00 €</div>
-                            </div>
-                            <div class="result-item">
-                                <label>Ετήσιο Καθαρό</label>
-                                <div class="value" id="display-annual-net">0,00 €</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Κρατήσεις & Ποσοστά -->
-                    <div class="result-card">
-                        <h3 class="section-title">📊 Κρατήσεις</h3>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr><th>Κράτηση</th><th>Ποσοστό</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>ΤΠΔΥ (ΕΦΑΠΑΞ)</td><td>4%</td></tr>
-                                    <tr><td>ΜΤΠΥ (Μετοχικό)</td><td>4,5%</td></tr>
-                                    <tr><td>ΤΕΑΔΥ (Επικουρική)</td><td>3%</td></tr>
-                                    <tr><td>Υγειονομική Περίθαλψη</td><td>2,05%</td></tr>
-                                    <tr><td>ΕΦΚΑ Σύνταξη</td><td>6,67%</td></tr>
-                                    <tr><td>Εισφορά Ανεργίας</td><td>2%</td></tr>
-                                    <tr style="background-color:#e8f5e9;"><td><strong>ΣΥΝΟΛΟ</strong></td><td><strong>22,22%</strong></td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+        <!-- είσοδος επιδομάτων + παράμετροι σε grid -->
+        <div class="grid-2" style="gap: 1rem;">
+            <div class="result-card">
+                <h4>💰 Επιδόματα</h4>
+                <div class="form-group"><label>Επικίνδυνο (€)</label><input type="number" id="dangerousBonus" value="150" step="0.01"></div>
+                <div class="form-group"><label>Ιδ. Συνθηκών (€)</label><input type="number" id="idsynBonus" value="100" step="0.01"></div>
+                <div class="form-group"><label>Επίδομα τέκνων (€)</label><input type="number" id="childrenBonus" value="70" step="0.01"></div>
+            </div>
+            <div class="result-card">
+                <h4>⚙️ Παράμετροι</h4>
+                <div class="form-group"><label>👶 Αριθμός τέκνων</label>
+                    <select id="numChildrenSelect">
+                        <option value="0">0</option><option value="1" selected>1</option><option value="2">2</option>
+                        <option value="3">3</option><option value="4">4</option><option value="5">5+</option>
+                    </select>
                 </div>
-
-                <!-- ΔΕΞΙΑ ΣΤΗΛΗ - ΠΙΝΑΚΕΣ ΠΛΗΡΟΦΟΡΙΩΝ -->
-                <div class="right-column">
-                    
-                    <!-- Αναλυτικός Πίνακας Υπολογισμού -->
-                    <div class="result-card">
-                        <h3 class="section-title">🔍 Αναλυτικός Πίνακας Υπολογισμού</h3>
-                        <div class="table-container">
-                            <table id="detailed-table">
-                                <thead>
-                                    <tr><th>Περιγραφή</th><th>Ποσό (€)</th></tr>
-                                </thead>
-                                <tbody id="detailed-table-body"></tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Δύο πίνακες σε σειρά -->
-                    <div class="grid-2">
-                        <!-- Πίνακας Επιδόματος Τέκνου -->
-                        <div class="result-card informational-table">
-                            <h4>👶 ΕΠΙΔΟΜΑ ΤΕΚΝΩΝ</h4>
-                            <div class="table-container">
-                                <table>
-                                    <thead>
-                                        <tr><th>Αριθμός Τέκνων</th><th>Ποσό (€)</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr><td>1 ΤΕΚΝΟ</td><td>70 €</td></tr>
-                                        <tr><td>2 ΤΕΚΝΑ</td><td>120 €</td></tr>
-                                        <tr><td>3 ΤΕΚΝΑ</td><td>170 €</td></tr>
-                                        <tr><td>4 ΤΕΚΝΑ</td><td>220 €</td></tr>
-                                        <tr><td>5 ΤΕΚΝΑ</td><td>290 €</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Πίνακας Επιδομάτων Σωμάτων Ασφαλείας -->
-                        <div class="result-card informational-table">
-                            <h4>🛡️ ΕΠΙΔΟΜΑΤΑ ΣΩΜΑΤΩΝ ΑΣΦΑΛΕΙΑΣ</h4>
-                            <div class="table-container">
-                                <table>
-                                    <thead>
-                                        <tr><th>Κατηγορία</th><th>Ποσό (€)</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr><td>ΕΠΙΚ/ΙΔ.ΣΥΝΘ</td><td>155 €</td></tr>
-                                        <tr><td>ΕΓΓΑΜΟΣ</td><td>225 €</td></tr>
-                                        <tr><td>ΜΕ ΤΕΚΝΑ</td><td>285 €</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Φορολογική Κλίμακα -->
-                    <div class="result-card">
-                        <h4>📋 Φορολογική Κλίμακα 2026 (Άνω των 30)</h4>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Εισόδημα (€)</th>
-                                        <th>0 τέκνα</th>
-                                        <th>1 τέκνο</th>
-                                        <th>2 τέκνα</th>
-                                        <th>3 τέκνα</th>
-                                        <th>4+ τέκνα</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>0 - 10.000</td><td>9%</td><td>9%</td><td>9%</td><td>9%</td><td>0%</td></tr>
-                                    <tr><td>10.001 - 20.000</td><td>20%</td><td>18%</td><td>16%</td><td>9%</td><td>0%</td></tr>
-                                    <tr><td>20.001 - 30.000</td><td>26%</td><td>24%</td><td>22%</td><td>20%</td><td>18%</td></tr>
-                                    <tr><td>30.001 - 40.000</td><td>34%</td><td>34%</td><td>34%</td><td>34%</td><td>34%</td></tr>
-                                    <tr><td>40.001 - 60.000</td><td>39%</td><td>39%</td><td>39%</td><td>39%</td><td>39%</td></tr>
-                                    <tr><td>60.001+</td><td>44%</td><td>44%</td><td>44%</td><td>44%</td><td>44%</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Έκπτωση Φόρου -->
-                    <div class="result-card">
-                        <h4>💰 Έκπτωση Φόρου (Μείωση)</h4>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr><th>Τέκνα</th><th>Βασική Έκπτωση (€)</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>0</td><td>777 €</td></tr>
-                                    <tr><td>1</td><td>900 €</td></tr>
-                                    <tr><td>2</td><td>1.120 €</td></tr>
-                                    <tr><td>3</td><td>1.340 €</td></tr>
-                                    <tr><td>4</td><td>1.580 €</td></tr>
-                                    <tr><td>5</td><td>1.780 €</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="info-box" style="margin-top:1rem; font-size:0.9rem;">
-                            <strong>Σημείωση:</strong> Η έκπτωση μειώνεται κατά 20€ για κάθε 1.000€ πάνω από τις 12.000€ εισόδημα.
-                        </div>
-                    </div>
-
-                    <!-- Επεξήγηση Ηλικιακών Κατηγοριών -->
-                    <div class="info-box">
-                        <h4 style="margin-top:0; color:var(--primary-color);">📌 Ηλικιακές Κατηγορίες</h4>
-                        <ul style="margin-left:1.5rem;">
-                            <li><strong>Έως 25 ετών:</strong> Αφορολόγητο 20.000€</li>
-                            <li><strong>25-30 ετών:</strong> 9% στο κλιμάκιο 10.001-20.000€</li>
-                            <li><strong>Άνω των 30:</strong> Πλήρης κλίμακα με μειώσεις ανάλογα τέκνα</li>
-                        </ul>
-                    </div>
+                <div class="form-group"><label>📅 Ηλικία</label>
+                    <select id="ageGroup">
+                        <option value="over30">Άνω 30</option><option value="under30">25-30</option><option value="under25">Έως 25</option>
+                    </select>
                 </div>
-            <!-- ΝΕΑ ΕΝΟΤΗΤΑ: Υπολογισμός Νυχτερινών & Πενθημέρων -->
-<div class="result-card" style="margin-bottom: 1.5rem;">
-    <h3 class="section-title">🌙 ΥΠΟΛΟΓΙΣΜΟΣ ΝΥΧΤΕΡΙΝΩΝ & ΠΕΝΘΗΜΕΡΩΝ</h3>
-    
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-        <!-- Νυχτερινά -->
-        <div>
-            <h4 style="color: var(--primary-color); margin-bottom: 1rem;">ΝΥΧΤΕΡΙΝΑ</h4>
-            <div style="display: flex; gap: 1rem; align-items: flex-end;">
-                <div style="flex: 1;">
-                    <label for="nightValue">Τιμή ανά ώρα (€):</label>
-                    <input type="number" id="nightValue" value="3.3" step="0.01" style="font-weight: bold;">
-                </div>
-                <div style="flex: 1;">
-                    <label for="nightHours">Ώρες:</label>
-                    <input type="number" id="nightHours" value="1" min="0" step="0.5" style="font-weight: bold;">
-                </div>
-                <div style="flex: 1;">
-                    <label>Σύνολο Μεικτό:</label>
-                    <div style="background-color: #e8f5e9; padding: 0.7rem; border-radius: 5px; font-weight: bold; font-size: 1.2rem; color: var(--primary-color); text-align: center;" id="nightTotal">3,30 €</div>
+                <div class="form-group"><label>💳 ΠΟΥΦ (€) <span class="badge">αφαίρεση</span></label>
+                    <input type="number" id="input-pouf" value="4" step="0.01">
                 </div>
             </div>
         </div>
-        
-        <!-- Πενθήμερα -->
-        <div>
-            <h4 style="color: var(--primary-color); margin-bottom: 1rem;">ΠΕΝΘΗΜΕΡΑ</h4>
-            <div style="display: flex; gap: 1rem; align-items: flex-end;">
-                <div style="flex: 1;">
-                    <label for="penhmeroValue">Τιμή (€):</label>
-                    <input type="number" id="penhmeroValue" value="46" step="0.01" style="font-weight: bold;">
+
+        <!-- βασικός μισθός (κρυφό πεδίο, αλλά το δείχνουμε) -->
+        <div class="form-group" style="margin-top:0.5rem">
+            <label>Βασικός μισθός αποδοχών (με συντελεστή)</label>
+            <input type="number" id="basicSalary" step="0.01" readonly>
+        </div>
+
+        <!-- νυχτερινά & πενθήμερα mobile friendly -->
+        <div class="result-card">
+            <h3 class="section-title" style="margin-top:0;">🌙 Νυχτερινά / Πενθήμερα</h3>
+            <div class="night-penhmero-wrapper">
+                <div class="night-box">
+                    <label>Νυχτερινά (ωρομίσθιο)</label>
+                    <input type="number" id="nightValue" value="3.3" step="0.01">
+                    <label style="margin-top:0.5rem;">Ώρες</label>
+                    <input type="number" id="nightHours" value="1" min="0" step="0.5">
+                    <div style="background:#e2f0e2; border-radius:40px; padding:0.6rem; margin-top:0.7rem; text-align:center; font-weight:bold;" id="nightTotal">3,30 €</div>
                 </div>
-                <div style="flex: 1;">
-                    <label for="penhmeroCount">Αριθμός:</label>
-                    <input type="number" id="penhmeroCount" value="1" min="0" step="1" style="font-weight: bold;">
-                </div>
-                <div style="flex: 1;">
-                    <label>Σύνολο Μεικτό:</label>
-                    <div style="background-color: #e8f5e9; padding: 0.7rem; border-radius: 5px; font-weight: bold; font-size: 1.2rem; color: var(--primary-color); text-align: center;" id="penhmeroTotal">46,00 €</div>
+                <div class="penhmero-box">
+                    <label>Πενθήμερα (τιμή)</label>
+                    <input type="number" id="penhmeroValue" value="46" step="0.01">
+                    <label style="margin-top:0.5rem;">Αριθμός</label>
+                    <input type="number" id="penhmeroCount" value="1" min="0" step="1">
+                    <div style="background:#e2f0e2; border-radius:40px; padding:0.6rem; margin-top:0.7rem; text-align:center; font-weight:bold;" id="penhmeroTotal">46,00 €</div>
                 </div>
             </div>
+            <div class="extra-total">
+                <span>Σύνολο extras</span>
+                <span style="font-size:1.5rem; color:var(--primary);" id="nightPenhmeroTotal">49,30 €</span>
+            </div>
+        </div>
+
+        <!-- ΑΠΟΤΕΛΕΣΜΑΤΑ σε κάρτα -->
+        <div class="result-card">
+            <h3 class="section-title">📈 Αποτελέσματα</h3>
+            <div class="results-grid">
+                <div class="result-item"><label>Μην. Μεικτά</label><div class="value" id="display-monthly-gross">0 €</div></div>
+                <div class="result-item"><label>Κρατήσεις</label><div class="value" id="display-monthly-deductions">0 €</div></div>
+                <div class="result-item"><label>Προ φόρου</label><div class="value" id="display-pre-tax">0 €</div></div>
+                <div class="result-item"><label>Ετήσιο φορολ.</label><div class="value" id="display-annual-taxable">0 €</div></div>
+                <div class="result-item"><label>Φόρος 2026</label><div class="value tax" id="display-tax">0 €</div></div>
+                <div class="result-item"><label>Καθαρό μήνα</label><div class="value net" id="display-monthly-net">0 €</div></div>
+                <div class="result-item"><label>15νθήμερο</label><div class="value" id="display-fortnight">0 €</div></div>
+                <div class="result-item"><label>Ετήσιο καθαρό</label><div class="value" id="display-annual-net">0 €</div></div>
+            </div>
+        </div>
+
+        <!-- αναλυτικός πίνακας + πληροφοριακοί πίνακες -->
+        <div class="result-card">
+            <h4>🔍 Αναλυτικές κρατήσεις</h4>
+            <div class="table-container">
+                <table id="detailed-table">
+                    <thead><tr><th>Περιγραφή</th><th>Ποσό (€)</th></tr></thead>
+                    <tbody id="detailed-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- μικροί πίνακες επιδομάτων/φορολογικά (2 στήλες όταν χωράει) -->
+        <div class="grid-2">
+            <div class="result-card informational-table">
+                <h4>👶 Επίδομα τέκνων</h4>
+                <table>
+                    <thead><tr><th>Τέκνα</th><th>Ποσό</th></tr></thead>
+                    <tbody><tr><td>1</td><td>70 €</td></tr><tr><td>2</td><td>120 €</td></tr><tr><td>3</td><td>170 €</td></tr><tr><td>4</td><td>220 €</td></tr><tr><td>5</td><td>290 €</td></tr></tbody>
+                </table>
+            </div>
+            <div class="result-card informational-table">
+                <h4>🛡️ Σωμάτων Ασφ.</h4>
+                <table>
+                    <thead><tr><th>Κατηγορία</th><th>Ποσό</th></tr></thead>
+                    <tbody><tr><td>ΕΠΙΚ/ΙΔ.ΣΥΝΘ</td><td>155 €</td></tr><tr><td>ΕΓΓΑΜΟΣ</td><td>225 €</td></tr><tr><td>ΜΕ ΤΕΚΝΑ</td><td>285 €</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- φορολογική κλίμακα και έκπτωση -->
+        <div class="result-card">
+            <h4>📋 Φορολογική κλίμακα 2026 (άνω 30)</h4>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Εισόδημα</th><th>0τ</th><th>1τ</th><th>2τ</th><th>3τ</th><th>4+τ</th></tr></thead>
+                    <tbody>
+                        <tr><td>0-10.000</td><td>9%</td><td>9%</td><td>9%</td><td>9%</td><td>0%</td></tr>
+                        <tr><td>10-20.000</td><td>20%</td><td>18%</td><td>16%</td><td>9%</td><td>0%</td></tr>
+                        <tr><td>20-30.000</td><td>26%</td><td>24%</td><td>22%</td><td>20%</td><td>18%</td></tr>
+                        <tr><td>30-40.000</td><td>34%</td><td>34%</td><td>34%</td><td>34%</td><td>34%</td></tr>
+                        <tr><td>40-60.000</td><td>39%</td><td>39%</td><td>39%</td><td>39%</td><td>39%</td></tr>
+                        <tr><td>60.001+</td><td>44%</td><td>44%</td><td>44%</td><td>44%</td><td>44%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top:0.8rem;" class="info-box">
+                <strong>Έκπτωση φόρου:</strong> 0τ:777, 1τ:900, 2τ:1120, 3τ:1340, 4τ:1580, 5τ:1780 +220/παιδί<br>Μείωση 20€/1000€ >12.000€
+            </div>
+        </div>
+    </div><!-- τέλος calculator tab -->
+
+    <!-- ΚΑΡΤΕΛΑ ΟΔΗΓΙΩΝ (σύντομη, mobile friendly) -->
+    <div id="instructions" class="tab-content">
+        <div class="result-card instructions-content">
+            <h3>📖 Οδηγίες χρήσης</h3>
+            <h4>🔹 Βήμα 1</h4>
+            <p>Επιλέξτε κλιμάκιο από τον πίνακα. Ο βασικός μισθός ενημερώνεται αυτόματα. Μπορείτε να εφαρμόσετε συντελεστή βαθμού (ΦΡ, ΥΠΡΧ, ΑΡΧΦ).</p>
+            <h4>🔹 Βήμα 2</h4>
+            <p>Συμπληρώστε τα συνήθη επιδόματα (επικίνδυνο, ιδ. συνθηκών, τέκνων). Τα ποσά είναι ενδεικτικά – μπορείτε να τα τροποποιήσετε.</p>
+            <h4>🔹 Βήμα 3</h4>
+            <p>Ορίστε αριθμό τέκνων (για φόρο), ηλικιακή ομάδα και ΠΟΥΦ. Ο υπολογισμός γίνεται ζωντανά.</p>
+            <h4>🔹 Νυχτερινά / Πενθήμερα</h4>
+            <p>Συμπληρώστε ώρες ή πλήθος. Τα ποσά είναι προ κρατήσεων και φόρου — απλή απεικόνιση.</p>
+            <div class="note">
+                <strong>⚠️ Δοκιμαστική έκδοση</strong> — Δεν περιλαμβάνει προ-93, νεοδιόριστους, ειδικές σειρές. Βασίζεται σε κλίμακες 2026.
+            </div>
+            <p style="border-top:1px dashed #a0b9a0; padding-top:0.8rem;">Τελευταία ενημέρωση: Φεβρ. 2026</p>
         </div>
     </div>
-    
-    <!-- Συνολικό αποτέλεσμα -->
-    <div style="margin-top: 1.5rem; background-color: #fff3cd; padding: 1rem; border-radius: 5px; display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-weight: bold; font-size: 1.1rem;">ΣΥΝΟΛΟ ΝΥΧΤΕΡΙΝΩΝ & ΠΕΝΘΗΜΕΡΩΝ:</span>
-        <span style="font-weight: bold; font-size: 1.5rem; color: var(--primary-color);" id="nightPenhmeroTotal">49,30 €</span>
-    </div>
+    <footer>Φρουρά 2026 · έκδοση για κινητά</footer>
 </div>
 
+<script>
+    // Καρτέλες
+    function openTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        document.getElementById('tab' + (tabName === 'calculator' ? 'Calculator' : 'Instructions')).classList.add('active');
+    }
 
+    // ----- Δεδομένα μισθολογίου -----
+    const salaryScale = [
+        { scale: 1, years: "έως 3", amount: 1100 }, { scale: 2, years: "3-5", amount: 1160 },
+        { scale: 3, years: "5-7", amount: 1201 }, { scale: 4, years: "7-9", amount: 1243 },
+        { scale: 5, years: "9-11", amount: 1287 }, { scale: 6, years: "11-13", amount: 1332 },
+        { scale: 7, years: "13-15", amount: 1380 }, { scale: 8, years: "15-17", amount: 1449 },
+        { scale: 9, years: "17-19", amount: 1521 }, { scale: 10, years: "19-21", amount: 1600 },
+        { scale: 11, years: "21-23", amount: 1656 }, { scale: 12, years: "23-25", amount: 1714 },
+        { scale: 13, years: "25-27", amount: 1774 }, { scale: 14, years: "27-29", amount: 1836 },
+        { scale: 15, years: "29-31", amount: 1900 }, { scale: 16, years: "31-33", amount: 1967 },
+        { scale: 17, years: "33-35", amount: 2036 }, { scale: 18, years: "35-37", amount: 2107 },
+        { scale: 19, years: "37-39", amount: 2149 }, { scale: 20, years: "39+", amount: 2192 }
+    ];
 
-         </div>
-        </div>
+    function populateTables() {
+        const tbody = document.getElementById('salaryScaleTable');
+        tbody.innerHTML = salaryScale.map(item => `<tr><td>${item.scale}</td><td>${item.years}</td><td>${item.amount.toFixed(2)} €</td></tr>`).join('');
+        const select = document.getElementById('scaleSelect');
+        select.innerHTML = '<option value="">-- Επιλογή --</option>' + salaryScale.map(item => `<option value="${item.amount}">Κλ.${item.scale} (${item.years}) ${item.amount} €</option>`).join('');
+    }
 
-        <!-- ΚΑΡΤΕΛΑ 2: ΟΔΗΓΙΕΣ (ΓΡΑΨΤΕ Ο,ΤΙ ΘΕΛΕΤΕ ΕΔΩ) -->
-        <div id="instructions" class="tab-content">
-            <div class="result-card instructions-content">
-                <h3>📖 ΟΔΗΓΙΕΣ ΧΡΗΣΗΣ - ΥΠΟΛΟΓΙΣΤΗΣ ΚΡΑΤΗΣΕΩΝ 2026</h3>
-                
-                <!-- ΑΝΤΙΚΑΤΑΣΤΗΣΤΕ ΟΛΟ ΑΥΤΟ ΤΟ ΚΕΙΜΕΝΟ ΜΕ ΤΙΣ ΔΙΚΕΣ ΣΑΣ ΟΔΗΓΙΕΣ -->
-                 <h4>ΔΟΚΙΜΑΣΤΙΚΟ ΚΑΙ ΜΟΝΟ</h4>
- <p>Ειναι καθαρα δοκιμαστικο προκειμενου οταν εχουμε πραγματικη εικονα να στηθει το κανονικο.ΔΕΝ ΕΧΕΙ ΣΥΜΠΕΡΙΛΗΦΘΕΙ ΟΙ ΠΡΟ 93 ΚΑΙ ΟΙ ΝΕΟΔΙΟΡΙΣΤΟΙ.Οι σειρες ισως να εχουν διαφορετικη αντιμετωπιση πχ η πρωτη σειρα και οι πρωην δηματικοι δεν θα μπορεσουν να ενταχθουν σε αλλα ταμεια σωματων ασφαλειας , οι σειρες Β,Γ,νεοι θα πρεπει να γινει μελετη σε περιπτωση που τεθει θεμα. Τα σωματα ασφαλεις εχουν συνδεση επιδοματων με οικογενειακη κατασταση , εχει συμπεριεληφθει πινακας αναλογος μπορει καποιος να πειραματιστει και με αυτο τον ενδεχομενο.Για αυτο τον λογο τα πλαισια στα επιδοματα ειναι ελυεθερα. ΔΕΝ ΕΙΝΑΙ 100% ΕΤΟΙΜΟ Ειναι μια βαση για μελλοντικη εργασια.πενθημερα νυχτερινα προ κρατησεων κ φορου δοκιμαστικη εκδοση</p>
+    // Φόρος & πίστωση (συντομευμένη αλλά ίδια λογική)
+    function calculateTax2026(annual, children, age) {
+        if (age === 'under25') { if (annual <= 20000) return 0; let rem = annual - 20000, tax = 0; [10000,10000,20000,Infinity].forEach((lim, i) => { let bracket = Math.min(rem, lim); tax += bracket * (i === 0 ? 0.26 : i === 1 ? 0.34 : i === 2 ? 0.39 : 0.44); rem -= bracket; }); return tax; }
+        if (age === 'under30') { let t = 0, r = annual; let steps = [10000,10000,10000,10000,20000]; let rates = [0.09,0.09,0.26,0.34,0.39,0.44]; for (let i=0; i<steps.length && r>0; i++) { let b = Math.min(r, steps[i]); t += b * rates[i]; r -= b; } if (r>0) t += r * 0.44; return t; }
+        let tax = 0, rem = annual; const rates = (c) => { if (c >= 4) return [0,0,18,34,39,44]; return [[9,20,26,34,39,44],[9,18,24,34,39,44],[9,16,22,34,39,44],[9,9,20,34,39,44]][c] || [9,20,26,34,39,44]; };
+        let r = rates(children); let br = [10000,10000,10000,10000,20000]; for (let i=0; i<br.length && rem>0; i++) { let b = Math.min(rem, br[i]); tax += b * r[i]/100; rem -= b; } if (rem>0) tax += rem * r[5]/100; return tax;
+    }
 
-                <h4>🔹 ΒΗΜΑ 1: Επιλογή Βασικού Μισθού</h4>
-                <p>Από τον πίνακα "Κλίμακα Βασικών Μισθών" επιλέξτε το κλιμάκιο που αντιστοιχεί στα έτη υπηρεσίας σας. Ο βασικός μισθός θα μεταφερθεί αυτόματα στο πεδίο "Βασικός Μισθός Αποδοχών".</p>
-                
-                <h4>🔹 ΒΗΜΑ 2: Εφαρμογή Συντελεστή Βαθμού (προαιρετικά)</h4>
-                <p>Ανάλογα με τον βαθμό σας, μπορείτε να εφαρμόσετε έναν από τους παρακάτω συντελεστές:</p>
-                <ul>
-                    <li><strong>ΦΡ:</strong> 1,03</li>
-                    <li><strong>ΥΠΡΧ:</strong> 1,04</li>
-                    <li><strong>ΑΡΧΦ:</strong> 1,07</li>
-                </ul>
-                <p>Επιλέξτε τον συντελεστή από το αντίστοιχο dropdown και ο βασικός μισθός θα πολλαπλασιαστεί αυτόματα.</p>
-                
-                <h4>🔹 ΒΗΜΑ 3: Συμπλήρωση Επιδομάτων</h4>
-                <p>Συμπληρώστε τα πεδία:</p>
-                <ul>
-                    <li><strong>Επικίνδυνο:</strong> Συνήθως 150€</li>
-                    <li><strong>Ιδ. Συνθηκών:</strong> Συνήθως 100€</li>
-                    <li><strong>Επίδομα Τέκνων:</strong> Βάσει του πίνακα "ΕΠΙΔΟΜΑ ΤΕΚΝΩΝ" στη δεξιά στήλη</li>
-                </ul>
-                
-                <h4>🔹 ΒΗΜΑ 4: Παράμετροι Υπολογισμού</h4>
-                <ul>
-                    <li><strong>Αριθμός Τέκνων:</strong> Επιλέξτε πόσα τέκνα έχετε (για τον υπολογισμό του φόρου)</li>
-                    <li><strong>Ηλικιακή Κατηγορία:</strong> Επιλέξτε την κατηγορία σας (έως 25, 25-30, άνω των 30)</li>
-                    <li><strong>ΠΟΥΦ:</strong> Συνήθως 4€ - αφαιρείται από το μηνιαίο καθαρό</li>
-                </ul>
-                
-                <div class="note">
-                    <strong>📌 ΣΗΜΑΝΤΙΚΟ:</strong> Όλες οι αλλαγές γίνονται αυτόματα. Δεν χρειάζεται να πατάτε κάποιο κουμπί υπολογισμού.
-                </div>
-                
-                <h4>🔹 Επεξήγηση Αποτελεσμάτων</h4>
-                <ul>
-                    <li><strong>Μηνιαία Μεικτά:</strong> Το σύνολο των αποδοχών προ κρατήσεων</li>
-                    <li><strong>Μηνιαίες Κρατήσεις:</strong> Το σύνολο των κρατήσεων (22,22% των μεικτών)</li>
-                    <li><strong>Προ Φόρου (Μήνας):</strong> Μεικτά μείον κρατήσεις</li>
-                    <li><strong>Ετήσιο Φορολογητέο:</strong> Προ φόρου μήνα × 12</li>
-                    <li><strong>Φόρος 2026:</strong> Υπολογίζεται βάσει της επίσημης κλίμακας</li>
-                    <li><strong>Μηνιαίο Καθαρό:</strong> Προ φόρου μήνα μείον (φόρος/12) μείον ΠΟΥΦ</li>
-                </ul>
-                
-                <h4>🔹 Πίνακες Πληροφοριών (Δεξιά στήλη)</h4>
-                <ul>
-                    <li><strong>Αναλυτικός Πίνακας:</strong> Δείχνει όλες τις πράξεις βήμα-βήμα</li>
-                    <li><strong>Επίδομα Τέκνων:</strong> Ενδεικτικά ποσά ανά αριθμό τέκνων</li>
-                    <li><strong>Επιδόματα Σωμάτων Ασφαλείας:</strong> Ενδεικτικά ποσά</li>
-                    <li><strong>Φορολογική Κλίμακα:</strong> Αναλυτικοί συντελεστές για κάθε κατηγορία</li>
-                    <li><strong>Έκπτωση Φόρου:</strong> Ποσά έκπτωσης ανάλογα με τέκνα</li>
-                </ul>
-                
-                <div class="warning">
-                    <strong>⚠️ ΠΡΟΣΟΧΗ:</strong> Οι υπολογισμοί είναι ενδεικτικοί και βασίζονται στην επίσημη φορολογική κλίμακα του 2026. Για επίσημους υπολογισμούς, συμβουλευτείτε τον λογιστή σας.
-                </div>
-                
-                <h4>📅 Τελευταία ενημέρωση: Φεβρουάριος 2026</h4>
-                
-                <!-- ΤΕΛΟΣ ΔΙΚΩΝ ΣΑΣ ΟΔΗΓΙΩΝ -->
-            </div>
-        </div>
-    </div>
+    function taxCredit(annual, children, age) {
+        if (age === 'under25') return 0;
+        let base = [777,900,1120,1340,1580,1780]; let idx = Math.min(children,5); let credit = base[idx] + (children>5 ? (children-5)*220 : 0);
+        if (annual <= 12000) return credit;
+        let red = Math.floor((annual - 12000) / 1000) * 20;
+        return Math.max(0, credit - red);
+    }
 
-    <script>
-        // Συνάρτηση εναλλαγής καρτελών
-        function openTab(tabName) {
-            const tabs = document.getElementsByClassName('tab-content');
-            for (let i = 0; i < tabs.length; i++) {
-                tabs[i].classList.remove('active');
-            }
-            
-            const buttons = document.getElementsByClassName('tab-button');
-            for (let i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove('active');
-            }
-            
-            document.getElementById(tabName).classList.add('active');
-            
-            if (tabName === 'calculator') {
-                document.getElementById('tabCalculator').classList.add('active');
-            } else {
-                document.getElementById('tabInstructions').classList.add('active');
-            }
-        }
+    function formatMoney(v) { return v.toFixed(2).replace('.',',') + ' €'; }
 
-        // ---------- ΥΠΟΛΟΓΙΣΤΙΚΟ ΜΕΡΟΣ (όπως πριν) ----------
-        const salaryScale = [
-            { scale: 1, years: "έως 3", amount: 1100 },
-            { scale: 2, years: "3 - 5", amount: 1160 },
-            { scale: 3, years: "5 - 7", amount: 1201 },
-            { scale: 4, years: "7 - 9", amount: 1243 },
-            { scale: 5, years: "9 - 11", amount: 1287 },
-            { scale: 6, years: "11 - 13", amount: 1332 },
-            { scale: 7, years: "13 - 15", amount: 1380 },
-            { scale: 8, years: "15 - 17", amount: 1449 },
-            { scale: 9, years: "17 - 19", amount: 1521 },
-            { scale: 10, years: "19 - 21", amount: 1600 },
-            { scale: 11, years: "21 - 23", amount: 1656 },
-            { scale: 12, years: "23 - 25", amount: 1714 },
-            { scale: 13, years: "25 - 27", amount: 1774 },
-            { scale: 14, years: "27 - 29", amount: 1836 },
-            { scale: 15, years: "29 - 31", amount: 1900 },
-            { scale: 16, years: "31 - 33", amount: 1967 },
-            { scale: 17, years: "33 - 35", amount: 2036 },
-            { scale: 18, years: "35 - 37", amount: 2107 },
-            { scale: 19, years: "37 - 39", amount: 2149 },
-            { scale: 20, years: "39 και άνω", amount: 2192 }
-        ];
+    function calculateAll() {
+        const basic = parseFloat(document.getElementById('basicSalary').value) || 0;
+        const dang = parseFloat(document.getElementById('dangerousBonus').value) || 0;
+        const ids = parseFloat(document.getElementById('idsynBonus').value) || 0;
+        const kidBonus = parseFloat(document.getElementById('childrenBonus').value) || 0;
+        const children = parseInt(document.getElementById('numChildrenSelect').value) || 0;
+        const age = document.getElementById('ageGroup').value;
+        const pouf = parseFloat(document.getElementById('input-pouf').value) || 0;
 
-        function populateTables() {
-            const tbody = document.getElementById('salaryScaleTable');
-            tbody.innerHTML = '';
-            salaryScale.forEach(item => {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td>${item.scale}</td><td>${item.years}</td><td>${item.amount.toFixed(2)} €</td>`;
-                tbody.appendChild(row);
-            });
+        const totalGross = basic + dang + ids + kidBonus;
+        const rate = 0.04 + 0.045 + 0.03 + 0.0205 + 0.0667 + 0.02; // 22.22%
+        const deductions = totalGross * rate;
+        const monthlyPreTax = totalGross - deductions;
+        const annualTax = monthlyPreTax * 12;
+        const rawTax = calculateTax2026(annualTax, children, age);
+        const credit = taxCredit(annualTax, children, age);
+        const finalTax = Math.max(0, rawTax - credit);
+        const annualNet = annualTax - finalTax;
+        const monthlyNet = (annualNet / 12) - pouf;
+        const fortnight = monthlyNet / 2;
 
-            const select = document.getElementById('scaleSelect');
-            select.innerHTML = '<option value="">-- Επιλέξτε Κλιμάκιο --</option>';
-            salaryScale.forEach(item => {
-                const option = document.createElement('option');
-                option.value = item.amount;
-                option.textContent = `Κλ. ${item.scale} (${item.years}) - ${item.amount} €`;
-                select.appendChild(option);
-            });
-        }
+        const idsMap = ['display-monthly-gross','display-monthly-deductions','display-pre-tax','display-annual-taxable','display-tax','display-monthly-net','display-fortnight','display-annual-net'];
+        [totalGross, deductions, monthlyPreTax, annualTax, finalTax, monthlyNet, fortnight, annualNet].forEach((val, i) => {
+            let el = document.getElementById(idsMap[i]); if (el) el.textContent = formatMoney(val);
+        });
 
-        function updateBasicSalary() {
-            const scaleSelect = document.getElementById('scaleSelect');
-            const coefSelect = document.getElementById('coefSelect');
-            const basicField = document.getElementById('basicSalary');
-
-            let baseAmount = parseFloat(scaleSelect.value);
-            if (isNaN(baseAmount) || baseAmount <= 0) baseAmount = 1100;
-
-            const coef = parseFloat(coefSelect.value) || 1.00;
-            basicField.value = (baseAmount * coef).toFixed(2);
-            calculateAll();
-        }
-
-        function calculateTax2026(annualIncome, children, ageGroup) {
-            if (ageGroup === 'under25') {
-                if (annualIncome <= 20000) return 0;
-                const excess = annualIncome - 20000;
-                let tax = 0, remaining = excess;
-                
-                const step3 = Math.min(remaining, 10000);
-                tax += step3 * 0.26; remaining -= step3;
-                if (remaining > 0) {
-                    const step4 = Math.min(remaining, 10000);
-                    tax += step4 * 0.34; remaining -= step4;
-                }
-                if (remaining > 0) {
-                    const step5 = Math.min(remaining, 20000);
-                    tax += step5 * 0.39; remaining -= step5;
-                }
-                if (remaining > 0) tax += remaining * 0.44;
-                return tax;
-            }
-            
-            if (ageGroup === 'under30') {
-                let tax = 0, remaining = annualIncome;
-                
-                const step1 = Math.min(remaining, 10000);
-                tax += step1 * 0.09; remaining -= step1;
-                
-                if (remaining > 0) {
-                    const step2 = Math.min(remaining, 10000);
-                    tax += step2 * 0.09; remaining -= step2;
-                }
-                
-                if (remaining > 0) {
-                    const step3 = Math.min(remaining, 10000);
-                    tax += step3 * 0.26; remaining -= step3;
-                }
-                if (remaining > 0) {
-                    const step4 = Math.min(remaining, 10000);
-                    tax += step4 * 0.34; remaining -= step4;
-                }
-                if (remaining > 0) {
-                    const step5 = Math.min(remaining, 20000);
-                    tax += step5 * 0.39; remaining -= step5;
-                }
-                if (remaining > 0) tax += remaining * 0.44;
-                return tax;
-            }
-            
-            let tax = 0, remaining = annualIncome;
-            
-            const step1 = Math.min(remaining, 10000);
-            tax += step1 * (children >= 4 ? 0 : 0.09);
-            remaining -= step1;
-            
-            if (remaining > 0) {
-                const step2 = Math.min(remaining, 10000);
-                let rate2 = 0.20;
-                if (children === 1) rate2 = 0.18;
-                else if (children === 2) rate2 = 0.16;
-                else if (children === 3) rate2 = 0.09;
-                else if (children >= 4) rate2 = 0.00;
-                tax += step2 * rate2;
-                remaining -= step2;
-            }
-            
-            if (remaining > 0) {
-                const step3 = Math.min(remaining, 10000);
-                let rate3 = 0.26;
-                if (children === 1) rate3 = 0.24;
-                else if (children === 2) rate3 = 0.22;
-                else if (children === 3) rate3 = 0.20;
-                else if (children >= 4) rate3 = 0.18;
-                tax += step3 * rate3;
-                remaining -= step3;
-            }
-            
-            if (remaining > 0) {
-                const step4 = Math.min(remaining, 10000);
-                tax += step4 * 0.34;
-                remaining -= step4;
-            }
-            
-            if (remaining > 0) {
-                const step5 = Math.min(remaining, 20000);
-                tax += step5 * 0.39;
-                remaining -= step5;
-            }
-            
-            if (remaining > 0) tax += remaining * 0.44;
-            return tax;
-        }
-
-        function calculateTaxCredit(annualIncome, children, ageGroup) {
-            if (ageGroup === 'under25') return 0;
-            
-            let baseCredit = 777;
-            if (children === 1) baseCredit = 900;
-            else if (children === 2) baseCredit = 1120;
-            else if (children === 3) baseCredit = 1340;
-            else if (children === 4) baseCredit = 1580;
-            else if (children === 5) baseCredit = 1780;
-            else if (children >= 6) baseCredit = 1780 + (children - 5) * 220;
-            
-            if (annualIncome <= 12000) return baseCredit;
-            
-            const excess = annualIncome - 12000;
-            const reduction = Math.floor(excess / 1000) * 20;
-            return Math.max(0, baseCredit - reduction);
-        }
-
-        function calculateAll() {
-            const basic = parseFloat(document.getElementById('basicSalary').value) || 0;
-            const dangerous = parseFloat(document.getElementById('dangerousBonus').value) || 0;
-            const idsyn = parseFloat(document.getElementById('idsynBonus').value) || 0;
-            const childrenBonus = parseFloat(document.getElementById('childrenBonus').value) || 0;
-            
-            const children = parseInt(document.getElementById('numChildrenSelect').value) || 0;
-            const ageGroup = document.getElementById('ageGroup').value;
-            const pouf = parseFloat(document.getElementById('input-pouf').value) || 0;
-
-            const totalGross = basic + dangerous + idsyn + childrenBonus;
-            const deductionRate = 0.04 + 0.045 + 0.03 + 0.0205 + 0.0667 + 0.02;
-            const totalDeductions = totalGross * deductionRate;
-            const monthlyPreTax = totalGross - totalDeductions;
-            const annualTaxable = monthlyPreTax * 12;
-
-            const taxBeforeCredit = calculateTax2026(annualTaxable, children, ageGroup);
-            const credit = calculateTaxCredit(annualTaxable, children, ageGroup);
-            const finalTax = Math.max(0, taxBeforeCredit - credit);
-
-            const annualNet = annualTaxable - finalTax;
-            const monthlyNet = (annualNet / 12) - pouf;
-            const fortnight = monthlyNet / 2;
-
-            const format = (n) => n.toFixed(2).replace('.', ',') + ' €';
-            
-            document.getElementById('display-monthly-gross').textContent = format(totalGross);
-            document.getElementById('display-monthly-deductions').textContent = format(totalDeductions);
-            document.getElementById('display-pre-tax').textContent = format(monthlyPreTax);
-            document.getElementById('display-annual-taxable').textContent = format(annualTaxable);
-            document.getElementById('display-tax').textContent = format(finalTax);
-            document.getElementById('display-monthly-net').textContent = format(monthlyNet);
-            document.getElementById('display-fortnight').textContent = format(fortnight);
-            document.getElementById('display-annual-net').textContent = format(annualNet);
-
-            const tbody = document.getElementById('detailed-table-body');
+        const tbody = document.getElementById('detailed-table-body');
+        if (tbody) {
             tbody.innerHTML = `
-                <tr><td>Βασικός Μισθός</td><td>${format(basic)}</td></tr>
-                <tr><td>Επικίνδυνο</td><td>${format(dangerous)}</td></tr>
-                <tr><td>Ιδ. Συνθηκών</td><td>${format(idsyn)}</td></tr>
-                <tr><td>Επίδομα Τέκνων</td><td>${format(childrenBonus)}</td></tr>
-                <tr style="font-weight:bold;"><td>ΣΥΝΟΛΟ ΜΕΙΚΤΩΝ</td><td>${format(totalGross)}</td></tr>
-                <tr><td colspan="2" style="background:#eee;">ΚΡΑΤΗΣΕΙΣ</td></tr>
-                <tr><td>ΤΠΔΥ (4%)</td><td>${format(totalGross * 0.04)}</td></tr>
-                <tr><td>ΜΤΠΥ (4,5%)</td><td>${format(totalGross * 0.045)}</td></tr>
-                <tr><td>ΤΕΑΔΥ (3%)</td><td>${format(totalGross * 0.03)}</td></tr>
-                <tr><td>Υγειονομική (2,05%)</td><td>${format(totalGross * 0.0205)}</td></tr>
-                <tr><td>ΕΦΚΑ Σύνταξη (6,67%)</td><td>${format(totalGross * 0.0667)}</td></tr>
-                <tr><td>Εισφορά Ανεργίας (2%)</td><td>${format(totalGross * 0.02)}</td></tr>
-                <tr style="font-weight:bold;"><td>ΣΥΝΟΛΟ ΚΡΑΤΗΣΕΩΝ</td><td>${format(totalDeductions)}</td></tr>
-                <tr><td>Προ Φόρου (Μήνας)</td><td>${format(monthlyPreTax)}</td></tr>
-                <tr><td>Ετήσιο Φορολογητέο</td><td>${format(annualTaxable)}</td></tr>
-                <tr><td>Φόρος (προ έκπτωσης)</td><td>${format(taxBeforeCredit)}</td></tr>
-                <tr><td>Έκπτωση Φόρου</td><td>${format(credit)}</td></tr>
-                <tr style="font-weight:bold; color:#d32f2f;"><td>ΤΕΛΙΚΟΣ ΦΟΡΟΣ</td><td>${format(finalTax)}</td></tr>
-                <tr><td>ΠΟΥΦ (αφαίρεση)</td><td>${format(pouf)}</td></tr>
-                <tr style="font-weight:bold; color:#1a237e;"><td>ΚΑΘΑΡΟ ΜΗΝΙΑΙΟ</td><td>${format(monthlyNet)}</td></tr>
+                <tr><td>Βασ. Μισθός</td><td>${formatMoney(basic)}</td></tr>
+                <tr><td>Επικίνδυνο</td><td>${formatMoney(dang)}</td></tr>
+                <tr><td>Ιδ. Συνθ.</td><td>${formatMoney(ids)}</td></tr>
+                <tr><td>Επίδ. τέκνων</td><td>${formatMoney(kidBonus)}</td></tr>
+                <tr><th colspan="2" style="background:#dde8dd">Κρατήσεις (22,22%)</th></tr>
+                <tr><td>ΤΠΔΥ (4%)</td><td>${formatMoney(totalGross*0.04)}</td></tr>
+                <tr><td>ΜΤΠΥ (4,5%)</td><td>${formatMoney(totalGross*0.045)}</td></tr>
+                <tr><td>ΤΕΑΔΥ (3%)</td><td>${formatMoney(totalGross*0.03)}</td></tr>
+                <tr><td>Υγειονομική (2,05%)</td><td>${formatMoney(totalGross*0.0205)}</td></tr>
+                <tr><td>ΕΦΚΑ σύνταξη (6,67%)</td><td>${formatMoney(totalGross*0.0667)}</td></tr>
+                <tr><td>Ανεργία (2%)</td><td>${formatMoney(totalGross*0.02)}</td></tr>
+                <tr><th>ΣΥΝΟΛΟ ΚΡΑΤ.</th><td>${formatMoney(deductions)}</td></tr>
+                <tr><td>Προ φόρου (μήνας)</td><td>${formatMoney(monthlyPreTax)}</td></tr>
+                <tr><td>Ετήσιο φορολογητέο</td><td>${formatMoney(annualTax)}</td></tr>
+                <tr><td>Φόρος πριν έκπτ.</td><td>${formatMoney(rawTax)}</td></tr>
+                <tr><td>Έκπτωση φόρου</td><td>${formatMoney(credit)}</td></tr>
+                <tr><th>ΤΕΛΙΚΟΣ ΦΟΡΟΣ</th><td>${formatMoney(finalTax)}</td></tr>
+                <tr><td>ΠΟΥΦ</td><td>${formatMoney(pouf)}</td></tr>
+                <tr><th>ΚΑΘΑΡΟ ΜΗΝΑ</th><td>${formatMoney(monthlyNet)}</td></tr>
             `;
         }
+    }
 
-        function attachListeners() {
-            const inputs = ['dangerousBonus', 'idsynBonus', 'childrenBonus', 'numChildrenSelect', 'ageGroup', 'input-pouf', 'scaleSelect', 'coefSelect'];
-            inputs.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    const newEl = el.cloneNode(true);
-                    el.parentNode.replaceChild(newEl, el);
-                    newEl.addEventListener('input', (e) => {
-                        if (e.target.id === 'scaleSelect' || e.target.id === 'coefSelect') updateBasicSalary();
-                        else calculateAll();
-                    });
-                    newEl.addEventListener('change', (e) => {
-                        if (e.target.id === 'scaleSelect' || e.target.id === 'coefSelect') updateBasicSalary();
-                        else calculateAll();
-                    });
-                }
-            });
-            updateBasicSalary();
-        }
+    function updateBasicSalary() {
+        const base = parseFloat(document.getElementById('scaleSelect').value) || 1100;
+        const coef = parseFloat(document.getElementById('coefSelect').value) || 1.0;
+        document.getElementById('basicSalary').value = (base * coef).toFixed(2);
+        calculateAll();
+    }
 
-        populateTables();
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', attachListeners);
-        } else {
-            attachListeners();
-        }
-    // Υπολογισμός νυχτερινών και πενθημέρων
-function calculateExtras() {
-    const nightValue = parseFloat(document.getElementById('nightValue')?.value) || 0;
-    const nightHours = parseFloat(document.getElementById('nightHours')?.value) || 0;
-    const nightTotal = nightValue * nightHours;
-    
-    const penhmeroValue = parseFloat(document.getElementById('penhmeroValue')?.value) || 0;
-    const penhmeroCount = parseFloat(document.getElementById('penhmeroCount')?.value) || 0;
-    const penhmeroTotal = penhmeroValue * penhmeroCount;
-    
-    const totalExtras = nightTotal + penhmeroTotal;
-    
-    const nightEl = document.getElementById('nightTotal');
-    const penhmeroEl = document.getElementById('penhmeroTotal');
-    const totalEl = document.getElementById('nightPenhmeroTotal');
-    
-    if (nightEl) nightEl.textContent = nightTotal.toFixed(2).replace('.', ',') + ' €';
-    if (penhmeroEl) penhmeroEl.textContent = penhmeroTotal.toFixed(2).replace('.', ',') + ' €';
-    if (totalEl) totalEl.textContent = totalExtras.toFixed(2).replace('.', ',') + ' €';
-}
+    function calculateExtras() {
+        const nVal = parseFloat(document.getElementById('nightValue')?.value) || 0;
+        const nHrs = parseFloat(document.getElementById('nightHours')?.value) || 0;
+        const nightT = nVal * nHrs;
+        const pVal = parseFloat(document.getElementById('penhmeroValue')?.value) || 0;
+        const pCnt = parseFloat(document.getElementById('penhmeroCount')?.value) || 0;
+        const penT = pVal * pCnt;
+        document.getElementById('nightTotal').innerText = nightT.toFixed(2).replace('.',',') + ' €';
+        document.getElementById('penhmeroTotal').innerText = penT.toFixed(2).replace('.',',') + ' €';
+        document.getElementById('nightPenhmeroTotal').innerText = (nightT+penT).toFixed(2).replace('.',',') + ' €';
+    }
 
-// Επέκταση της attachListeners για να συμπεριλάβει τα νέα πεδία
-function attachListeners() {
-    const inputs = [
-        'dangerousBonus', 'idsynBonus', 'childrenBonus', 
-        'numChildrenSelect', 'ageGroup', 'input-pouf',
-        'scaleSelect', 'coefSelect',
-        'nightValue', 'nightHours', 'penhmeroValue', 'penhmeroCount' // ΝΕΑ
-    ];
-    
-    inputs.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-            const newEl = el.cloneNode(true);
-            el.parentNode.replaceChild(newEl, el);
-            
-            newEl.addEventListener('input', (e) => {
-                if (e.target.id === 'scaleSelect' || e.target.id === 'coefSelect') {
-                    updateBasicSalary();
-                } else {
-                    calculateAll();
-                }
-                calculateExtras(); // Υπολογισμός extras σε κάθε αλλαγή
-            });
-            
-            newEl.addEventListener('change', (e) => {
-                if (e.target.id === 'scaleSelect' || e.target.id === 'coefSelect') {
-                    updateBasicSalary();
-                } else {
-                    calculateAll();
-                }
+    function attachListeners() {
+        const ids = ['dangerousBonus','idsynBonus','childrenBonus','numChildrenSelect','ageGroup','input-pouf','scaleSelect','coefSelect','nightValue','nightHours','penhmeroValue','penhmeroCount'];
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const clone = el.cloneNode(true);
+            el.parentNode.replaceChild(clone, el);
+            clone.addEventListener('input', (e) => {
+                if (e.target.id === 'scaleSelect' || e.target.id === 'coefSelect') updateBasicSalary();
+                else calculateAll();
                 calculateExtras();
             });
-        }
-    });
-    
-    updateBasicSalary();
-    calculateExtras(); // Αρχικός υπολογισμός extras
-}
+            clone.addEventListener('change', (e) => {
+                if (e.target.id === 'scaleSelect' || e.target.id === 'coefSelect') updateBasicSalary();
+                else calculateAll();
+                calculateExtras();
+            });
+        });
+        updateBasicSalary();
+        calculateExtras();
+    }
 
-
- </script>
+    populateTables();
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', attachListeners);
+    else attachListeners();
+</script>
 </body>
 </html>
