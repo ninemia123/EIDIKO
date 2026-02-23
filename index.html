@@ -110,6 +110,30 @@
             margin-bottom: 1.2rem;
         }
 
+        .deduction-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #e1d7f0;
+            padding: 0.8rem 1rem;
+            border-radius: 40px;
+            margin-bottom: 0.8rem;
+        }
+        
+        .deduction-selector label {
+            margin-bottom: 0;
+            flex: 1;
+            color: #4a2e7a;
+            font-weight: 600;
+        }
+        
+        .deduction-selector select {
+            width: auto;
+            flex: 0.5;
+            background: white;
+            border: 1px solid #8f79b0;
+        }
+
         label {
             display: block;
             font-weight: 600;
@@ -374,6 +398,39 @@
             margin-bottom: 1rem;
             border: 2px solid #c9b561;
         }
+        
+        .extra-deductions-container {
+            background: #e1d7f0;
+            border-radius: 40px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 2px solid #8f79b0;
+        }
+        
+        .extra-deduction-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .extra-deduction-item label {
+            margin-bottom: 0;
+            flex: 1;
+            color: #4a2e7a;
+            font-size: 1rem;
+        }
+        
+        .extra-deduction-item select {
+            width: auto;
+            flex: 0.4;
+            background: white;
+            border: 1px solid #8f79b0;
+        }
+        
+        .extra-deduction-item:last-child {
+            margin-bottom: 0;
+        }
     </style>
 </head>
 <body>
@@ -395,6 +452,31 @@
                     <option value="no">Όχι</option>
                     <option value="yes">Ναι</option>
                 </select>
+            </div>
+        </div>
+        
+        <!-- ΝΕΕΣ ΕΠΙΛΟΓΕΣ ΚΡΑΤΗΣΕΩΝ (στυλ Προ 1993) -->
+        <div class="extra-deductions-container">
+            <h4 style="margin-top: 0; margin-bottom: 1rem; color: #4a2e7a;">➕ Επιπλέον Κρατήσεις</h4>
+            
+            <div class="extra-deduction-item">
+                <label for="tameioAllilov">Ταμείο Αλληλοβοήθειας (5,83€)</label>
+                <select id="tameioAllilov">
+                    <option value="no">Όχι</option>
+                    <option value="yes">Ναι</option>
+                </select>
+            </div>
+            
+            <div class="extra-deduction-item">
+                <label for="kladYgeias">Κλάδος Υγείας (1,5%)</label>
+                <select id="kladYgeias">
+                    <option value="no">Όχι</option>
+                    <option value="yes">Ναι</option>
+                </select>
+            </div>
+            
+            <div style="font-size: 0.9rem; color: #4a2e7a; margin-top: 0.8rem; font-style: italic;">
+                * Ισχύουν για όλους (προ και μετά 1993)
             </div>
         </div>
 
@@ -554,7 +636,10 @@
             <h4>🔹 Βήμα 3</h4>
             <p>Ορίστε αριθμό τέκνων (για φόρο), ηλικιακή ομάδα και ΠΟΥΦ. Ο υπολογισμός γίνεται ζωντανά.</p>
             <h4>🔹 Προ 1993</h4>
-            <p>Η νέα επιλογή "Προ 1993" εφαρμόζει μειωμένες κρατήσεις στα επιδόματα: μόνο Υγειονομική (2,05%), Ανεργία (2%) και ΜΤΠΥ (1%). Ο βασικός μισθός κρατάει τις κανονικές κρατήσεις.</p>
+            <p>Η επιλογή "Προ 1993" εφαρμόζει μειωμένες κρατήσεις στα επιδόματα: μόνο Υγειονομική (2,05%), Ανεργία (2%) και ΜΤΠΥ (1%). Ο βασικός μισθός κρατάει τις κανονικές κρατήσεις.</p>
+            <h4>🔹 Νέες επιλογές (στυλ Προ 1993)</h4>
+            <p><strong>Ταμείο Αλληλοβοήθειας:</strong> σταθερή κράτηση 5,83€ από τα μηνιαία μεικτά.<br>
+            <strong>Κλάδος Υγείας 1,5%:</strong> επιπλέον ποσοστιαία κράτηση στο σύνολο των μεικτών.</p>
             <h4>🔹 Νυχτερινά / Πενθήμερα</h4>
             <p>Συμπληρώστε ώρες ή πλήθος. Τα ποσά είναι προ κρατήσεων και φόρου — απλή απεικόνιση.</p>
             <div class="note">
@@ -620,6 +705,10 @@
         const age = document.getElementById('ageGroup').value;
         const pouf = parseFloat(document.getElementById('input-pouf').value) || 0;
         const pre1993 = document.getElementById('pre1993Select').value === 'yes';
+        
+        // Νέες επιλογές με Ναι/Όχι
+        const tameioAllilov = document.getElementById('tameioAllilov').value === 'yes';
+        const kladYgeias = document.getElementById('kladYgeias').value === 'yes';
 
         const totalBonuses = dang + ids + kidBonus;
         const totalGross = basic + totalBonuses;
@@ -638,7 +727,12 @@
             bonusDeductions = totalBonuses * 0.2222;
         }
 
-        const totalDeductions = basicDeductions + bonusDeductions;
+        // Επιπλέον κρατήσεις (ισχύουν για όλους)
+        let extraDeductions = 0;
+        if (tameioAllilov) extraDeductions += 5.83;
+        if (kladYgeias) extraDeductions += totalGross * 0.015;
+
+        const totalDeductions = basicDeductions + bonusDeductions + extraDeductions;
         const monthlyPreTax = totalGross - totalDeductions;
         const annualTax = monthlyPreTax * 12;
         const rawTax = calculateTax2026(annualTax, children, age);
@@ -687,6 +781,17 @@
                     <tr><td>Ανεργία (2%)</td><td>${formatMoney(totalBonuses*0.02)}</td></tr>
                 `;
             }
+            
+            // Επιπλέον κρατήσεις
+            if (tameioAllilov || kladYgeias) {
+                detailsHtml += `<tr><th colspan="2" style="background:#e1d7f0">Επιπλέον Κρατήσεις</th></tr>`;
+                if (tameioAllilov) {
+                    detailsHtml += `<tr><td>Ταμείο Αλληλοβοήθειας</td><td>${formatMoney(5.83)}</td></tr>`;
+                }
+                if (kladYgeias) {
+                    detailsHtml += `<tr><td>Κλάδος Υγείας (1,5%)</td><td>${formatMoney(totalGross*0.015)}</td></tr>`;
+                }
+            }
 
             detailsHtml += `
                 <tr><th>ΣΥΝΟΛΟ ΚΡΑΤ.</th><td>${formatMoney(totalDeductions)}</td></tr>
@@ -722,7 +827,7 @@
     }
 
     function attachListeners() {
-        const ids = ['dangerousBonus','idsynBonus','childrenBonus','numChildrenSelect','ageGroup','input-pouf','scaleSelect','coefSelect','nightValue','nightHours','penhmeroValue','penhmeroCount','pre1993Select'];
+        const ids = ['dangerousBonus','idsynBonus','childrenBonus','numChildrenSelect','ageGroup','input-pouf','scaleSelect','coefSelect','nightValue','nightHours','penhmeroValue','penhmeroCount','pre1993Select','tameioAllilov','kladYgeias'];
         ids.forEach(id => {
             const el = document.getElementById(id);
             if (!el) return;
