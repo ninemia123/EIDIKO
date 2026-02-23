@@ -33,10 +33,10 @@
         }
 
         .container {
-            max-width: 600px;  /* άριστο για κινητά – τίποτα δεν ξεφεύγει δεξιά */
+            max-width: 600px;
             margin: 0 auto;
             width: 100%;
-            overflow-x: hidden;  /* αποτρέπει τυχόν ολίσθηση */
+            overflow-x: hidden;
         }
 
         h2 {
@@ -60,7 +60,6 @@
             margin: 0.8rem 0 0.3rem 0;
         }
 
-        /* καρτέλες */
         .tabs-container {
             display: flex;
             gap: 0.4rem;
@@ -152,7 +151,6 @@
             font-size: 1.25rem;
         }
 
-        /* πλέγμα 1 column παντού – ασφαλές για κινητά */
         .main-grid {
             display: flex;
             flex-direction: column;
@@ -165,7 +163,12 @@
             gap: 0.8rem;
         }
 
-        /* καρτέλες χωρίς overflow */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.8rem;
+        }
+
         .result-card {
             background: var(--card);
             padding: 1.2rem 1rem;
@@ -173,7 +176,7 @@
             box-shadow: var(--shadow);
             border: 1px solid var(--border-soft);
             width: 100%;
-            overflow: hidden;   /* κρύβει οτιδήποτε ξεφεύγει – ασφαλές */
+            overflow: hidden;
         }
 
         .results-grid {
@@ -208,7 +211,6 @@
         .value.tax { color: #b13e3e; }
         .value.net { color: #113e5e; }
 
-        /* πίνακες – μικροί, με λιγότερο padding, χωρίς min-width για αποφυγή κύλισης */
         .table-container {
             overflow-x: auto;
             border-radius: 20px;
@@ -222,7 +224,6 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 0.85rem;
-            /* αφαιρούμε το min-width:300px – αφήνουμε responsive */
         }
 
         th {
@@ -289,7 +290,6 @@
             padding: 0.6rem 0.2rem;
         }
 
-        /* Νυχτερινά/πενθήμερα – σε δυο στήλες όταν χωράει, αλλά πάντα μέσα στο κουτί */
         .night-penhmero-wrapper {
             display: flex;
             flex-direction: column;
@@ -359,17 +359,20 @@
             margin: 1.5rem 0 0.2rem;
         }
 
-        /* επιδιόρθωση του πίνακα Σωμάτων Ασφαλείας ώστε να χωράει χωρίς κύλιση */
         .compact-table table {
             font-size: 0.75rem;
         }
         .compact-table td, .compact-table th {
             padding: 0.4rem 0.1rem;
-            white-space: normal;   /* επιτρέπει αναδίπλωση */
+            white-space: normal;
         }
-        /* μικρή βοήθεια για τον πίνακα επιδομάτων τέκνων */
-        .informational-table table {
-            min-width: unset;
+
+        .pre-1993-toggle {
+            background: #e6e0c1;
+            border-radius: 40px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 2px solid #c9b561;
         }
     </style>
 </head>
@@ -377,16 +380,24 @@
 <div class="container">
     <h2>📱 ΦΡΟΥΡΑ 2026</h2>
 
-    <!-- καρτέλες -->
     <div class="tabs-container">
         <button class="tab-button active" onclick="openTab('calculator')" id="tabCalculator">🧮 Υπολογιστής</button>
         <button class="tab-button" onclick="openTab('instructions')" id="tabInstructions">📖 Οδηγίες</button>
     </div>
 
-    <!-- ΚΑΡΤΕΛΑ ΥΠΟΛΟΓΙΣΤΗ -->
     <div id="calculator" class="tab-content active">
 
-        <!-- κλίμακα βασικών μισθών + επιλογή κλιμακίου -->
+        <!-- ΠΡΟ 1993 ΕΠΙΛΟΓΗ -->
+        <div class="pre-1993-toggle">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <label style="margin-bottom: 0; font-size: 1.1rem; color: #5a4700;">📜 Προ 1993</label>
+                <select id="pre1993Select" style="width: auto; flex: 1; background: #faf5e4;">
+                    <option value="no">Όχι</option>
+                    <option value="yes">Ναι</option>
+                </select>
+            </div>
+        </div>
+
         <div class="result-card" style="padding-bottom: 0.8rem;">
             <h3 class="section-title" style="margin-top: 0;">📋 Βασικοί μισθοί (Κατ. Γ)</h3>
             <div class="table-container">
@@ -416,7 +427,6 @@
             </div>
         </div>
 
-        <!-- είσοδος επιδομάτων + παράμετροι σε grid -->
         <div class="grid-2" style="gap: 1rem;">
             <div class="result-card">
                 <h4>💰 Επιδόματα</h4>
@@ -443,13 +453,11 @@
             </div>
         </div>
 
-        <!-- βασικός μισθός (κρυφό πεδίο, αλλά το δείχνουμε) -->
         <div class="form-group" style="margin-top:0.5rem">
             <label>Βασικός μισθός αποδοχών (με συντελεστή)</label>
             <input type="number" id="basicSalary" step="0.01" readonly>
         </div>
 
-        <!-- ============= ΑΠΟΤΕΛΕΣΜΑΤΑ (ΜΕΤΑΦΕΡΘΗΚΕ ΠΑΝΩ) ============= -->
         <div class="result-card">
             <h3 class="section-title">📈 Αποτελέσματα</h3>
             <div class="results-grid">
@@ -464,7 +472,6 @@
             </div>
         </div>
 
-        <!-- ============= ΝΥΧΤΕΡΙΝΑ / ΠΕΝΘΗΜΕΡΑ (ΤΩΡΑ ΑΚΡΙΒΩΣ ΑΠΟ ΚΑΤΩ) ============= -->
         <div class="result-card">
             <h3 class="section-title" style="margin-top:0;">🌙 Νυχτερινά / Πενθήμερα</h3>
             <div class="night-penhmero-wrapper">
@@ -489,7 +496,6 @@
             </div>
         </div>
 
-        <!-- αναλυτικός πίνακας + πληροφοριακοί πίνακες -->
         <div class="result-card">
             <h4>🔍 Αναλυτικές κρατήσεις</h4>
             <div class="table-container">
@@ -500,7 +506,6 @@
             </div>
         </div>
 
-        <!-- μικροί πίνακες επιδομάτων/φορολογικά – ΔΙΟΡΘΩΜΕΝΟΙ ώστε να μην ξεφεύγουν -->
         <div class="grid-2">
             <div class="result-card informational-table compact-table">
                 <h4>👶 Επίδομα τέκνων</h4>
@@ -509,7 +514,6 @@
                     <tbody><tr><td>1</td><td>70 €</td></tr><tr><td>2</td><td>120 €</td></tr><tr><td>3</td><td>170 €</td></tr><tr><td>4</td><td>220 €</td></tr><tr><td>5</td><td>290 €</td></tr></tbody>
                 </table>
             </div>
-            <!-- ο πίνακας Σωμάτων Ασφ. τώρα είναι απόλυτα ορατός, χωρίς οριζόντια κύλιση -->
             <div class="result-card informational-table compact-table">
                 <h4>🛡️ Σωμάτων Ασφ.</h4>
                 <table>
@@ -519,7 +523,6 @@
             </div>
         </div>
 
-        <!-- φορολογική κλίμακα και έκπτωση -->
         <div class="result-card">
             <h4>📋 Φορολογική κλίμακα 2026 (άνω 30)</h4>
             <div class="table-container">
@@ -539,9 +542,8 @@
                 <strong>Έκπτωση φόρου:</strong> 0τ:777, 1τ:900, 2τ:1120, 3τ:1340, 4τ:1580, 5τ:1780 +220/παιδί<br>Μείωση 20€/1000€ >12.000€
             </div>
         </div>
-    </div><!-- τέλος calculator tab -->
+    </div>
 
-    <!-- ΚΑΡΤΕΛΑ ΟΔΗΓΙΩΝ -->
     <div id="instructions" class="tab-content">
         <div class="result-card instructions-content">
             <h3>📖 Οδηγίες χρήσης</h3>
@@ -551,10 +553,12 @@
             <p>Συμπληρώστε τα συνήθη επιδόματα (επικίνδυνο, ιδ. συνθηκών, τέκνων). Τα ποσά είναι ενδεικτικά – μπορείτε να τα τροποποιήσετε.</p>
             <h4>🔹 Βήμα 3</h4>
             <p>Ορίστε αριθμό τέκνων (για φόρο), ηλικιακή ομάδα και ΠΟΥΦ. Ο υπολογισμός γίνεται ζωντανά.</p>
+            <h4>🔹 Προ 1993</h4>
+            <p>Η νέα επιλογή "Προ 1993" εφαρμόζει μειωμένες κρατήσεις στα επιδόματα: μόνο Υγειονομική (2,05%), Ανεργία (2%) και ΜΤΠΥ (1%). Ο βασικός μισθός κρατάει τις κανονικές κρατήσεις.</p>
             <h4>🔹 Νυχτερινά / Πενθήμερα</h4>
             <p>Συμπληρώστε ώρες ή πλήθος. Τα ποσά είναι προ κρατήσεων και φόρου — απλή απεικόνιση.</p>
             <div class="note">
-                <strong>⚠️ Δοκιμαστική έκδοση</strong> — Ειναι καθαρα δοκιμαστικο προκειμενου οταν εχουμε πραγματικη εικονα να στηθει το κανονικο.ΔΕΝ ΕΧΕΙ ΣΥΜΠΕΡΙΛΗΦΘΕΙ ΟΙ ΠΡΟ 93 ΚΑΙ ΟΙ ΝΕΟΔΙΟΡΙΣΤΟΙ.Οι σειρες ισως να εχουν διαφορετικη αντιμετωπιση πχ η πρωτη σειρα και οι πρωην δηματικοι δεν θα μπορεσουν να ενταχθουν σε αλλα ταμεια σωματων ασφαλειας , οι σειρες Β,Γ,νεοι θα πρεπει να γινει μελετη σε περιπτωση που τεθει θεμα. Τα σωματα ασφαλεις εχουν συνδεση επιδοματων με οικογενειακη κατασταση , εχει συμπεριεληφθει πινακας αναλογος μπορει καποιος να πειραματιστει και με αυτο τον ενδεχομενο.Για αυτο τον λογο τα πλαισια στα επιδοματα ειναι ελυεθερα. ΔΕΝ ΕΙΝΑΙ 100% ΕΤΟΙΜΟ Ειναι μια βαση για μελλοντικη εργασια.πενθημερα νυχτερινα προ κρατησεων κ φορου δοκιμαστικη εκδοση.
+                <strong>⚠️ Δοκιμαστική έκδοση</strong> — Ειναι καθαρα δοκιμαστικο προκειμενου οταν εχουμε πραγματικη εικονα να στηθει το κανονικο.ΔΕΝ ΕΧΕΙ ΣΥΜΠΕΡΙΛΗΦΘΕΙ ΟΙ ΝΕΟΔΙΟΡΙΣΤΟΙ.Οι σειρες ισως να εχουν διαφορετικη αντιμετωπιση πχ η πρωτη σειρα και οι πρωην δηματικοι δεν θα μπορεσουν να ενταχθουν σε αλλα ταμεια σωματων ασφαλειας , οι σειρες Β,Γ,νεοι θα πρεπει να γινει μελετη σε περιπτωση που τεθει θεμα. Τα σωματα ασφαλεις εχουν συνδεση επιδοματων με οικογενειακη κατασταση , εχει συμπεριεληφθει πινακας αναλογος μπορει καποιος να πειραματιστει και με αυτο τον ενδεχομενο.Για αυτο τον λογο τα πλαισια στα επιδοματα ειναι ελυεθερα. ΔΕΝ ΕΙΝΑΙ 100% ΕΤΟΙΜΟ Ειναι μια βαση για μελλοντικη εργασια.πενθημερα νυχτερινα προ κρατησεων κ φορου δοκιμαστικη εκδοση.
             </div>
             <p style="border-top:1px dashed #a0b9a0; padding-top:0.8rem;">Τελευταία ενημέρωση: Φεβρ. 2026</p>
         </div>
@@ -563,7 +567,6 @@
 </div>
 
 <script>
-    // Καρτέλες
     function openTab(tabName) {
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
@@ -571,7 +574,6 @@
         document.getElementById('tab' + (tabName === 'calculator' ? 'Calculator' : 'Instructions')).classList.add('active');
     }
 
-    // ----- Δεδομένα μισθολογίου -----
     const salaryScale = [
         { scale: 1, years: "έως 3", amount: 1100 }, { scale: 2, years: "3-5", amount: 1160 },
         { scale: 3, years: "5-7", amount: 1201 }, { scale: 4, years: "7-9", amount: 1243 },
@@ -592,7 +594,6 @@
         select.innerHTML = '<option value="">-- Επιλογή --</option>' + salaryScale.map(item => `<option value="${item.amount}">Κλ.${item.scale} (${item.years}) ${item.amount} €</option>`).join('');
     }
 
-    // Φόρος & πίστωση (συντομευμένη αλλά ίδια λογική)
     function calculateTax2026(annual, children, age) {
         if (age === 'under25') { if (annual <= 20000) return 0; let rem = annual - 20000, tax = 0; [10000,10000,20000,Infinity].forEach((lim, i) => { let bracket = Math.min(rem, lim); tax += bracket * (i === 0 ? 0.26 : i === 1 ? 0.34 : i === 2 ? 0.39 : 0.44); rem -= bracket; }); return tax; }
         if (age === 'under30') { let t = 0, r = annual; let steps = [10000,10000,10000,10000,20000]; let rates = [0.09,0.09,0.26,0.34,0.39,0.44]; for (let i=0; i<steps.length && r>0; i++) { let b = Math.min(r, steps[i]); t += b * rates[i]; r -= b; } if (r>0) t += r * 0.44; return t; }
@@ -618,11 +619,27 @@
         const children = parseInt(document.getElementById('numChildrenSelect').value) || 0;
         const age = document.getElementById('ageGroup').value;
         const pouf = parseFloat(document.getElementById('input-pouf').value) || 0;
+        const pre1993 = document.getElementById('pre1993Select').value === 'yes';
 
-        const totalGross = basic + dang + ids + kidBonus;
-        const rate = 0.04 + 0.045 + 0.03 + 0.0205 + 0.0667 + 0.02; // 22.22%
-        const deductions = totalGross * rate;
-        const monthlyPreTax = totalGross - deductions;
+        const totalBonuses = dang + ids + kidBonus;
+        const totalGross = basic + totalBonuses;
+
+        // Κρατήσεις βασικού μισθού (κανονικές)
+        const basicDeductions = basic * 0.2222; // 22,22%
+
+        // Κρατήσεις επιδομάτων ανάλογα με την επιλογή Προ 1993
+        let bonusDeductions;
+        if (pre1993) {
+            // Μόνο Υγειονομική (2,05%), Ανεργία (2%), ΜΤΠΥ (1%)
+            const pre1993Rate = 0.0205 + 0.02 + 0.01; // 5,05%
+            bonusDeductions = totalBonuses * pre1993Rate;
+        } else {
+            // Κανονικές κρατήσεις (ίδιες με βασικό)
+            bonusDeductions = totalBonuses * 0.2222;
+        }
+
+        const totalDeductions = basicDeductions + bonusDeductions;
+        const monthlyPreTax = totalGross - totalDeductions;
         const annualTax = monthlyPreTax * 12;
         const rawTax = calculateTax2026(annualTax, children, age);
         const credit = taxCredit(annualTax, children, age);
@@ -632,25 +649,47 @@
         const fortnight = monthlyNet / 2;
 
         const idsMap = ['display-monthly-gross','display-monthly-deductions','display-pre-tax','display-annual-taxable','display-tax','display-monthly-net','display-fortnight','display-annual-net'];
-        [totalGross, deductions, monthlyPreTax, annualTax, finalTax, monthlyNet, fortnight, annualNet].forEach((val, i) => {
+        [totalGross, totalDeductions, monthlyPreTax, annualTax, finalTax, monthlyNet, fortnight, annualNet].forEach((val, i) => {
             let el = document.getElementById(idsMap[i]); if (el) el.textContent = formatMoney(val);
         });
 
         const tbody = document.getElementById('detailed-table-body');
         if (tbody) {
-            tbody.innerHTML = `
+            let detailsHtml = `
                 <tr><td>Βασ. Μισθός</td><td>${formatMoney(basic)}</td></tr>
                 <tr><td>Επικίνδυνο</td><td>${formatMoney(dang)}</td></tr>
                 <tr><td>Ιδ. Συνθ.</td><td>${formatMoney(ids)}</td></tr>
                 <tr><td>Επίδ. τέκνων</td><td>${formatMoney(kidBonus)}</td></tr>
-                <tr><th colspan="2" style="background:#dde8dd">Κρατήσεις (22,22%)</th></tr>
-                <tr><td>ΤΠΔΥ (4%)</td><td>${formatMoney(totalGross*0.04)}</td></tr>
-                <tr><td>ΜΤΠΥ (4,5%)</td><td>${formatMoney(totalGross*0.045)}</td></tr>
-                <tr><td>ΤΕΑΔΥ (3%)</td><td>${formatMoney(totalGross*0.03)}</td></tr>
-                <tr><td>Υγειονομική (2,05%)</td><td>${formatMoney(totalGross*0.0205)}</td></tr>
-                <tr><td>ΕΦΚΑ σύνταξη (6,67%)</td><td>${formatMoney(totalGross*0.0667)}</td></tr>
-                <tr><td>Ανεργία (2%)</td><td>${formatMoney(totalGross*0.02)}</td></tr>
-                <tr><th>ΣΥΝΟΛΟ ΚΡΑΤ.</th><td>${formatMoney(deductions)}</td></tr>
+                <tr><th colspan="2" style="background:#dde8dd">Κρατήσεις Βασικού Μισθού (22,22%)</th></tr>
+                <tr><td>ΤΠΔΥ (4%)</td><td>${formatMoney(basic*0.04)}</td></tr>
+                <tr><td>ΜΤΠΥ (4,5%)</td><td>${formatMoney(basic*0.045)}</td></tr>
+                <tr><td>ΤΕΑΔΥ (3%)</td><td>${formatMoney(basic*0.03)}</td></tr>
+                <tr><td>Υγειονομική (2,05%)</td><td>${formatMoney(basic*0.0205)}</td></tr>
+                <tr><td>ΕΦΚΑ σύνταξη (6,67%)</td><td>${formatMoney(basic*0.0667)}</td></tr>
+                <tr><td>Ανεργία (2%)</td><td>${formatMoney(basic*0.02)}</td></tr>
+            `;
+
+            if (pre1993) {
+                detailsHtml += `
+                    <tr><th colspan="2" style="background:#e6e0c1">Κρατήσεις Επιδομάτων (Προ 1993: 2,05%+2%+1%)</th></tr>
+                    <tr><td>Υγειονομική (2,05%)</td><td>${formatMoney(totalBonuses*0.0205)}</td></tr>
+                    <tr><td>Ανεργία (2%)</td><td>${formatMoney(totalBonuses*0.02)}</td></tr>
+                    <tr><td>ΜΤΠΥ (1%)</td><td>${formatMoney(totalBonuses*0.01)}</td></tr>
+                `;
+            } else {
+                detailsHtml += `
+                    <tr><th colspan="2" style="background:#dde8dd">Κρατήσεις Επιδομάτων (22,22%)</th></tr>
+                    <tr><td>ΤΠΔΥ (4%)</td><td>${formatMoney(totalBonuses*0.04)}</td></tr>
+                    <tr><td>ΜΤΠΥ (4,5%)</td><td>${formatMoney(totalBonuses*0.045)}</td></tr>
+                    <tr><td>ΤΕΑΔΥ (3%)</td><td>${formatMoney(totalBonuses*0.03)}</td></tr>
+                    <tr><td>Υγειονομική (2,05%)</td><td>${formatMoney(totalBonuses*0.0205)}</td></tr>
+                    <tr><td>ΕΦΚΑ σύνταξη (6,67%)</td><td>${formatMoney(totalBonuses*0.0667)}</td></tr>
+                    <tr><td>Ανεργία (2%)</td><td>${formatMoney(totalBonuses*0.02)}</td></tr>
+                `;
+            }
+
+            detailsHtml += `
+                <tr><th>ΣΥΝΟΛΟ ΚΡΑΤ.</th><td>${formatMoney(totalDeductions)}</td></tr>
                 <tr><td>Προ φόρου (μήνας)</td><td>${formatMoney(monthlyPreTax)}</td></tr>
                 <tr><td>Ετήσιο φορολογητέο</td><td>${formatMoney(annualTax)}</td></tr>
                 <tr><td>Φόρος πριν έκπτ.</td><td>${formatMoney(rawTax)}</td></tr>
@@ -659,6 +698,7 @@
                 <tr><td>ΠΟΥΦ</td><td>${formatMoney(pouf)}</td></tr>
                 <tr><th>ΚΑΘΑΡΟ ΜΗΝΑ</th><td>${formatMoney(monthlyNet)}</td></tr>
             `;
+            tbody.innerHTML = detailsHtml;
         }
     }
 
@@ -682,7 +722,7 @@
     }
 
     function attachListeners() {
-        const ids = ['dangerousBonus','idsynBonus','childrenBonus','numChildrenSelect','ageGroup','input-pouf','scaleSelect','coefSelect','nightValue','nightHours','penhmeroValue','penhmeroCount'];
+        const ids = ['dangerousBonus','idsynBonus','childrenBonus','numChildrenSelect','ageGroup','input-pouf','scaleSelect','coefSelect','nightValue','nightHours','penhmeroValue','penhmeroCount','pre1993Select'];
         ids.forEach(id => {
             const el = document.getElementById(id);
             if (!el) return;
