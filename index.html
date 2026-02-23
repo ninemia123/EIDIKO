@@ -431,6 +431,12 @@
         .extra-deduction-item:last-child {
             margin-bottom: 0;
         }
+        
+        .border-top-dashed {
+            border-top: 2px dashed #c9b561;
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -513,8 +519,13 @@
             <div class="result-card">
                 <h4>💰 Επιδόματα</h4>
                 <div class="form-group"><label>Επικίνδυνο (€)</label><input type="number" id="dangerousBonus" value="150" step="0.01"></div>
-                <div class="form-group"><label>Ιδ. Καθηκοντων (€)</label><input type="number" id="idsynBonus" value="100" step="0.01"></div>
+                <div class="form-group"><label>Ιδ. Καθηκόντων (€)</label><input type="number" id="idsynBonus" value="100" step="0.01"></div>
                 <div class="form-group"><label>Επίδομα τέκνων (€)</label><input type="number" id="childrenBonus" value="70" step="0.01"></div>
+                <!-- ΝΕΟ ΠΕΔΙΟ: Επίδομα Παραμεθορίου -->
+                <div class="form-group border-top-dashed">
+                    <label>🏔️ Επίδομα Παραμεθορίου (€)</label>
+                    <input type="number" id="borderBonus" value="0" step="0.01">
+                </div>
             </div>
             <div class="result-card">
                 <h4>⚙️ Παράμετροι</h4>
@@ -633,11 +644,13 @@
             <p>Επιλέξτε κλιμάκιο από τον πίνακα. Ο βασικός μισθός ενημερώνεται αυτόματα. Μπορείτε να εφαρμόσετε συντελεστή βαθμού (ΦΡ, ΥΠΡΧ, ΑΡΧΦ).</p>
             <h4>🔹 Βήμα 2</h4>
             <p>Συμπληρώστε τα συνήθη επιδόματα (επικίνδυνο, ιδ. συνθηκών, τέκνων). Τα ποσά είναι ενδεικτικά – μπορείτε να τα τροποποιήσετε.</p>
-            <h4>🔹 Βήμα 3</h4>
+            <h4>🔹 Βήμα 3 - Νέο</h4>
+            <p><strong>Επίδομα Παραμεθορίου:</strong> Προστέθηκε νέο πεδίο με αρχική τιμή 0€. Λειτουργεί ακριβώς όπως τα άλλα επιδόματα και υπόκειται στις ίδιες κρατήσεις (κανονικές ή Προ 1993).</p>
+            <h4>🔹 Βήμα 4</h4>
             <p>Ορίστε αριθμό τέκνων (για φόρο), ηλικιακή ομάδα και ΠΟΥΦ. Ο υπολογισμός γίνεται ζωντανά.</p>
             <h4>🔹 Προ 1993</h4>
-            <p>Η επιλογή "Προ 1993" εφαρμόζει μειωμένες κρατήσεις στα επιδόματα: μόνο Υγειονομική (2,05%), Ανεργία (2%) και ΜΤΠΥ (1%). Ο βασικός μισθός κρατάει τις κανονικές κρατήσεις.</p>
-            <h4>🔹 Νέες επιλογές (στυλ Προ 1993)</h4>
+            <p>Η επιλογή "Προ 1993" εφαρμόζει μειωμένες κρατήσεις στα επιδόματα (συμπεριλαμβανομένου και του νέου Παραμεθορίου): μόνο Υγειονομική (2,05%), Ανεργία (2%) και ΜΤΠΥ (1%). Ο βασικός μισθός κρατάει τις κανονικές κρατήσεις.</p>
+            <h4>🔹 Νέες επιλογές κρατήσεων</h4>
             <p><strong>Ταμείο Αλληλοβοήθειας:</strong> σταθερή κράτηση 5,83€ από τα μηνιαία μεικτά.<br>
             <strong>Κλάδος Υγείας 1,5%:</strong> επιπλέον ποσοστιαία κράτηση στο σύνολο των μεικτών.</p>
             <h4>🔹 Νυχτερινά / Πενθήμερα</h4>
@@ -701,6 +714,9 @@
         const dang = parseFloat(document.getElementById('dangerousBonus').value) || 0;
         const ids = parseFloat(document.getElementById('idsynBonus').value) || 0;
         const kidBonus = parseFloat(document.getElementById('childrenBonus').value) || 0;
+        // Νέο επίδομα Παραμεθορίου
+        const borderBonus = parseFloat(document.getElementById('borderBonus').value) || 0;
+        
         const children = parseInt(document.getElementById('numChildrenSelect').value) || 0;
         const age = document.getElementById('ageGroup').value;
         const pouf = parseFloat(document.getElementById('input-pouf').value) || 0;
@@ -710,7 +726,8 @@
         const tameioAllilov = document.getElementById('tameioAllilov').value === 'yes';
         const kladYgeias = document.getElementById('kladYgeias').value === 'yes';
 
-        const totalBonuses = dang + ids + kidBonus;
+        // Σύνολο επιδομάτων (συμπεριλαμβάνεται και το Παραμεθόριο)
+        const totalBonuses = dang + ids + kidBonus + borderBonus;
         const totalGross = basic + totalBonuses;
 
         // Κρατήσεις βασικού μισθού (κανονικές)
@@ -752,8 +769,9 @@
             let detailsHtml = `
                 <tr><td>Βασ. Μισθός</td><td>${formatMoney(basic)}</td></tr>
                 <tr><td>Επικίνδυνο</td><td>${formatMoney(dang)}</td></tr>
-                <tr><td>Ιδ. Συνθ.</td><td>${formatMoney(ids)}</td></tr>
+                <tr><td>Ιδ. Καθηκόντων</td><td>${formatMoney(ids)}</td></tr>
                 <tr><td>Επίδ. τέκνων</td><td>${formatMoney(kidBonus)}</td></tr>
+                <tr><td>🏔️ Επίδ. Παραμεθορίου</td><td>${formatMoney(borderBonus)}</td></tr>
                 <tr><th colspan="2" style="background:#dde8dd">Κρατήσεις Βασικού Μισθού (22,22%)</th></tr>
                 <tr><td>ΤΠΔΥ (4%)</td><td>${formatMoney(basic*0.04)}</td></tr>
                 <tr><td>ΜΤΠΥ (4,5%)</td><td>${formatMoney(basic*0.045)}</td></tr>
@@ -827,7 +845,7 @@
     }
 
     function attachListeners() {
-        const ids = ['dangerousBonus','idsynBonus','childrenBonus','numChildrenSelect','ageGroup','input-pouf','scaleSelect','coefSelect','nightValue','nightHours','penhmeroValue','penhmeroCount','pre1993Select','tameioAllilov','kladYgeias'];
+        const ids = ['dangerousBonus','idsynBonus','childrenBonus','borderBonus','numChildrenSelect','ageGroup','input-pouf','scaleSelect','coefSelect','nightValue','nightHours','penhmeroValue','penhmeroCount','pre1993Select','tameioAllilov','kladYgeias'];
         ids.forEach(id => {
             const el = document.getElementById(id);
             if (!el) return;
